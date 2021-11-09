@@ -1,6 +1,6 @@
-### PFED Practice Playground
+## PFED Practice Playground
 
-#### 1. Setup Themekit on your device
+### 1. Setup Themekit on your device
 
 Head over to the [ThemeKit Getting Started](https://shopify.dev/themes/tools/theme-kit/getting-started) documentation and follow the instructions for Step 1 and 2. Don't worry about step 3, we'll get there soon.
 
