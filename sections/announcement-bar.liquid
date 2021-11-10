@@ -6,7 +6,7 @@
           {%- if block.settings.link != blank -%}
             <a href="{{ block.settings.link }}" class="announcement-bar__link link link--text focus-inset animate-arrow">
           {%- endif -%}
-              <p class="announcement-bar__message h5">
+              <p class="announcement-bar__message h5" style="font-size: {{ block.settings.fontSize }}px">
                 {{ block.settings.text | escape }}
                 {%- if block.settings.link != blank -%}
                   {% render 'icon-arrow' %}
@@ -34,6 +34,12 @@
           "id": "text",
           "default": "Welcome to our store",
           "label": "t:sections.announcement-bar.blocks.announcement.settings.text.label"
+        },
+        {
+          "type": "text",
+          "id": "fontSize",
+          "default": "16",
+          "label": "Change the font size"
         },
         {
           "type": "select",
