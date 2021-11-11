@@ -6,7 +6,7 @@
           {%- if block.settings.link != blank -%}
             <a href="{{ block.settings.link }}" class="announcement-bar__link link link--text focus-inset animate-arrow">
           {%- endif -%}
-              <p class="announcement-bar__message h5" style="font-size: {{ block.settings.fontSize }}px">
+              <p class="announcement-bar__message h5" style="font-size: {{ block.settings.announcement-font-size }}px">
                 {{ block.settings.text | escape }}
                 {%- if block.settings.link != blank -%}
                   {% render 'icon-arrow' %}
@@ -37,7 +37,7 @@
         },
         {
           "type": "text",
-          "id": "fontSize",
+          "id": "announcement-font-size",
           "default": "16",
           "label": "Change the font size"
         },
