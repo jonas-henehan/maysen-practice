@@ -86,6 +86,23 @@
       }
     ]
   },
+  
+  {
+    "name": "[Plus] Add to cart on collection page",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Add to cart button"
+      },
+      {
+        "type": "checkbox",
+        "id": "plus_add_to_cart",
+        "default": true,
+        "label": "Add to cart button under products in collection"
+      }
+    ]
+  },
+  
   {
     "name": "t:settings_schema.typography.name",
     "settings": [
