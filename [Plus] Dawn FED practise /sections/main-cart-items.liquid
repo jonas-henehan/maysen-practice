@@ -57,7 +57,8 @@
                       >
                     {% endif %}
                   </td>
-
+                  
+                  {%- if item.product.type == settings.plus_product_warning_type %}<p style="color: red">Warning: A product in the cart is type {{ settings.plus_product_warning_type }}</p>{%- endif -%}
                   <td class="cart-item__details">
                     {%- if section.settings.show_vendor -%}
                       <p class="caption-with-letter-spacing light">{{ item.product.vendor }}</p>
@@ -75,6 +76,7 @@
                             </div>
                           {%- endfor -%}
                         {%- endif -%}
+                        
 
                         {%- for property in item.properties -%}
                           {%- assign property_first_char = property.first | slice: 0 -%}

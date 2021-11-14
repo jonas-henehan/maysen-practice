@@ -102,6 +102,28 @@
       }
     ]
   },
+
+  {
+    "name": "[Plus] Show product warning",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Plus product warning settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "plus_show_product_warning",
+        "default": true,
+        "label": "Enable or disable product type warning"
+      },
+      {
+        "type": "text",
+        "id": "plus_product_warning_type",
+        "default": "Matches",
+        "label": "Choose the type to show the warning on"
+      }
+    ]
+  },
   
   {
     "name": "t:settings_schema.typography.name",
