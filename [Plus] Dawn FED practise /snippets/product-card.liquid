@@ -22,7 +22,7 @@
 
 <style>
   .full-unstyled-link::after {
-    z-index: -5 !important;
+    z-index: -10 !important;
   }
 </style>
 
@@ -71,7 +71,17 @@
       {%- if settings.plus_add_to_cart -%}
         {% render 'plus-add-to-cart', product_card_product: product_card_product %}
       {%- endif -%}
-      
+
+
+      {%- if settings.plus_view_more_button -%}
+        {% if product_card_product.options.size > 1 %}
+          <a style="color: white" href="{{ product_card_product.url | default: '#' }}"
+            type="button"
+            class="button button--full-width button--primary full-unstyled-link"
+          >{{ settings.plus_view_more_button_text }}</a>
+        {% endif %}
+      {%- endif -%}
+
     </div>
   </div>
 
