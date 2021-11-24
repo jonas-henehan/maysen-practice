@@ -58,7 +58,6 @@
                     {% endif %}
                   </td>
                   
-                  {%- if item.product.type == settings.plus_product_warning_type %}<p style="color: red">Warning: A product in the cart is type {{ settings.plus_product_warning_type }}</p>{%- endif -%}
                   <td class="cart-item__details">
                     {%- if section.settings.show_vendor -%}
                       <p class="caption-with-letter-spacing light">{{ item.product.vendor }}</p>
@@ -76,6 +75,7 @@
                             </div>
                           {%- endfor -%}
                         {%- endif -%}
+                        {%- if item.product.type == settings.plus_product_warning_type %}<p style="color: red; font-size: 1.25rem;">WARNING: This product has a type of {{ settings.plus_product_warning_type }}</p>{%- endif -%}
                         
 
                         {%- for property in item.properties -%}

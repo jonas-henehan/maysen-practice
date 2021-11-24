@@ -21,7 +21,7 @@
 <section class="page-width">
 
   
-  {%- if settings.plus_show_product_warning and settings.plus_product_warning_type != blank -%}
+  {% if settings.plus_show_product_warning %}
     {%- if product.type == settings.plus_product_warning_type -%}
       {% render 'plus-product-type-warning' %}
     {%- elsif product.type == blank -%}
@@ -30,6 +30,9 @@
       {%- endif -%}
     {%- endif -%}
   {%- endif -%}
+
+
+
   
   <div class="product grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
     <div class="grid__item product__media-wrapper">
