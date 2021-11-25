@@ -68,6 +68,7 @@
 
       {% render 'price', product: product_card_product, price_class: '' %}
 
+
       {%- if settings.plus_add_to_cart -%}
         {% render 'plus-add-to-cart', product_card_product: product_card_product %}
       {%- endif -%}
@@ -116,7 +117,6 @@
               width="{{ product_card_product.featured_media.width }}"
               height="{{ product_card_product.featured_media.height }}"
             >
-
             {%- if product_card_product.media[1] != nil and show_secondary_image -%}
               <img
                 srcset="{%- if product_card_product.media[1].width >= 165 -%}{{ product_card_product.media[1] | img_url: '165x' }} 165w,{%- endif -%}

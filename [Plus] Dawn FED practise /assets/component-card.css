@@ -288,7 +288,7 @@
   }
 
   .card:hover .media.media--hover-effect > img:first-child:only-child,
-  .card-wrapper:hover .media.media--hover-effect > img:first-child:only-child {
+  .card-wrapper:hover .media.media--hover-effect > img:first-child:only-child :not(.card-information__wrapper) {
     transform: scale(1.03);
   }
 
