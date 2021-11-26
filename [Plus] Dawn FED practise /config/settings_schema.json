@@ -124,6 +124,24 @@
       }
     ]
   },
+
+  {
+    "name": "[Plus] View more options button on collection page",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "plus_view_more_button",
+        "default": true,
+        "label": "Show a button to view more options"
+      },
+      {
+        "type": "text",
+        "id": "plus_view_more_button_text",
+        "default": "View more options",
+        "label": "Button label"
+      }
+    ]
+  },
   
   {
     "name": "t:settings_schema.typography.name",
