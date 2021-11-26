@@ -86,6 +86,40 @@
       }
     ]
   },
+  
+  {
+    "name": "[Plus] Add to cart on collection page",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Add to cart button"
+      },
+      {
+        "type": "checkbox",
+        "id": "plus_add_to_cart",
+        "default": true,
+        "label": "Add to cart button under products in collection"
+      }
+    ]
+  },
+  {
+    "name": "[Plus] View more options button on collection page",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "plus_view_more_button",
+        "default": true,
+        "label": "Show a button to view more options"
+      },
+      {
+        "type": "text",
+        "id": "plus_view_more_button_text",
+        "default": "View more options",
+        "label": "Button label"
+      }
+    ]
+  },
+  
   {
     "name": "t:settings_schema.typography.name",
     "settings": [

@@ -15,6 +15,16 @@
 {% endcomment %}
 
 {{ 'component-rating.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+
+{%- assign product_id = product_card_product.selected_or_first_available_variant.id -%}
+
+<style>
+  .full-unstyled-link::after {
+    z-index: -10 !important;
+  }
+</style>
 
 <div class="card-wrapper">
   <div class="card-information">
@@ -55,7 +65,24 @@
           <span class="visually-hidden">{{ product_card_product.metafields.reviews.rating_count }} {{ "accessibility.total_reviews" | t }}</span>
         </p>
       {%- endif -%}
+
       {% render 'price', product: product_card_product, price_class: '' %}
+
+
+      {%- if settings.plus_add_to_cart -%}
+        {% render 'plus-add-to-cart', product_card_product: product_card_product %}
+      {%- endif -%}
+
+
+      {%- if settings.plus_view_more_button -%}
+        {% if product_card_product.options.size > 1 %}
+          <a style="color: white" href="{{ product_card_product.url | default: '#' }}"
+            type="button"
+            class="button button--full-width button--primary full-unstyled-link"
+          >{{ settings.plus_view_more_button_text }}</a>
+        {% endif %}
+      {%- endif -%}
+
     </div>
   </div>
 
@@ -72,7 +99,7 @@
 
         <div{% if add_image_padding %} class="card__media-full-spacer"{% endif %}>
           <div class="media media--transparent media--{{ media_size }} media--hover-effect"
-            {% if media_size == 'adapt' and product_card_product.featured_media %} style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;"{% endif %}
+            {% if media_size == 'adapt' and product_card_product.featured_media %} style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%"{% endif %}
           >
             <img
               srcset="{%- if product_card_product.featured_media.width >= 165 -%}{{ product_card_product.featured_media | img_url: '165x' }} 165w,{%- endif -%}
@@ -90,7 +117,6 @@
               width="{{ product_card_product.featured_media.width }}"
               height="{{ product_card_product.featured_media.height }}"
             >
-
             {%- if product_card_product.media[1] != nil and show_secondary_image -%}
               <img
                 srcset="{%- if product_card_product.media[1].width >= 165 -%}{{ product_card_product.media[1] | img_url: '165x' }} 165w,{%- endif -%}
@@ -120,7 +146,7 @@
           </h2>
         </div>
       {%- endif -%}
-
+      
       <div class="card__badge">
         {%- if product_card_product.available == false -%}
           <span class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}">{{ 'products.product.sold_out' | t }}</span>
