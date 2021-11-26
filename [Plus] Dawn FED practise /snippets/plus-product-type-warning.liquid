@@ -1,0 +1,18 @@
+{%- assign warning_type = settings.plus_product_warning_type -%}
+{%- if product.type == warning_type or product.title contains warning_type -%}
+  <style>
+    .product-warning-container {
+        border: 1px solid red; 
+        background-color: #f6b7ab;
+        margin-bottom: 25px;
+    }
+    
+    .product-warning-container h2 {
+        text-align: center;
+    }
+  </style>
+
+  <div class="product-warning-container">
+    <h2>Are you aware this product is: {{ settings.plus_product_warning_type }}?</h2>
+  </div> 
+{%- endif -%}
