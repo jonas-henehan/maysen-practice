@@ -6,7 +6,7 @@
           {%- if block.settings.link != blank -%}
             <a href="{{ block.settings.link }}" class="announcement-bar__link link link--text focus-inset animate-arrow">
           {%- endif -%}
-              <p class="announcement-bar__message h5" style="font-size: {{ block.settings.announcement-font-size }}px">
+              <p class="announcement-bar__message h5" style="font-size: {{ block.settings.announcement_font_size }}px">
                 {{ block.settings.text | escape }}
                 {%- if block.settings.link != blank -%}
                   {% render 'icon-arrow' %}
@@ -36,9 +36,13 @@
           "label": "t:sections.announcement-bar.blocks.announcement.settings.text.label"
         },
         {
-          "type": "text",
-          "id": "announcement-font-size",
-          "default": "16",
+          "type": "range",
+          "min": 12,
+          "max": 48,
+          "step": 2,
+          "unit": "px",
+          "id": "announcement_font_size",
+          "default": 16,
           "label": "Change the font size"
         },
         {
