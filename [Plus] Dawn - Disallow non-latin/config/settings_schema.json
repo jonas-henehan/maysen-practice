@@ -338,5 +338,38 @@
         "label": "Add to cart under product"
       }
     ]
+  },
+  {
+    "name": "[Plus] Disallow non-latin characters at checkout",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "plus_no_nonlatin_chars",
+        "label": "Disallow non-latin characters at checkout",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "[Plus] Disallow PO Boxes at checkout",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "plus_no_po_box",
+        "label": "Disallow PO Boxes at checkout",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "[Plus] Restrict input character length",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "plus_restrict_input_length",
+        "label": "Restrict input length to 32 characters",
+        "default": true
+      }
+    ]
   }
 ]
