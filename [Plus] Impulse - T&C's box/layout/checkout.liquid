@@ -50,5 +50,10 @@
     </div>
 
     {{ tracking_code }}
+
+
+    {% if settings.plus_terms_conditions_checkout %}
+      {{ 'plus-checkout-terms-conditions.js' | asset_url | script_tag }}
+    {% endif %}
   </body>
 </html>

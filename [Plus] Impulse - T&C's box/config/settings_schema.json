@@ -8,6 +8,18 @@
     "theme_support_url": "https:\/\/archetypethemes.co\/pages\/support#impulse"
   },
   {
+    "name": "[Plus] T&C's checkbox at checkout",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "plus_terms_conditions_checkout",
+        "label": "Customers must check T&C's box before completing their checkout",
+        "default": true
+      }
+    ]
+  },
+
+  {
     "name": "Colors",
     "settings": [
       {
