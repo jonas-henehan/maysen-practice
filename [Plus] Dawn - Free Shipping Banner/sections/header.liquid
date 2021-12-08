@@ -80,6 +80,12 @@
   </symbol>
 </svg>
 <{% if section.settings.enable_sticky_header %}sticky-header{% else %}div{% endif %} class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}">
+
+  {%- if section.settings.plus_show_shipping_banner -%}
+    {%- render 'plus-shipping-banner', merchantShippingGoal: section.settings.shipping_goal, bannerBackgroundColor: section.settings.shipping_banner_color -%}
+  {%- endif -%}
+
+
   <header class="header header--{{ section.settings.logo_position }} page-width{% if section.settings.menu != blank %} header--has-menu{% endif %}">
     {%- if section.settings.menu != blank -%}
       <header-drawer data-breakpoint="tablet">
@@ -650,6 +656,28 @@
 {
   "name": "t:sections.header.name",
   "settings": [
+    {
+      "type": "header",
+      "content": "[Plus] Enable free shipping banner on cart page"
+    },
+    {
+      "type": "checkbox",
+      "id": "plus_show_shipping_banner",
+      "label": "Enable shipping banner",
+      "default": true
+    },
+    {
+      "type": "number",
+      "id": "shipping_goal",
+      "label": "Enter a free shipping goal amount",
+      "default": 200
+    },
+    {
+      "type": "color",
+      "id": "shipping_banner_color",
+      "label": "Colour of free shipping banner",
+      "default": "#0000FF"
+    },
     {
       "type": "select",
       "id": "color_scheme",

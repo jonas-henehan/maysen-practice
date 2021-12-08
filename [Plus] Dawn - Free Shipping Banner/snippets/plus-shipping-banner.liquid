@@ -1,0 +1,44 @@
+<style>
+    #progressbar {
+        border: 1px solid black;
+        height: 20px;
+        width: 100%;
+      }
+      
+      #progressbar div {
+        background-color: blue;
+        height: 100%;
+        animation: progressBar 2s ease-in-out;
+        max-width: 100%;
+      }
+
+      .free-shipping-wrapper {
+          margin: 0 auto;
+          text-align: center;
+      }
+</style>
+
+{% assign shipping_goal = merchantShippingGoal %}
+{% assign cartTotal = cart.total_price %}
+{% assign totalProgress = shipping_goal | times: 100 | minus: cart.total_price %}
+{% assign progressWidth = cart.total_price | divided_by: shipping_goal %}
+
+
+<!-- Pass variable into element to grab it using JS -->
+<span hidden id="merchantSetFreeShippingGoal">{{ shipping_goal }}</span>
+
+<div class="free-shipping-wrapper">
+    <p>
+        <span id="total-cart-price">
+            {%- if totalProgress < 0 -%}
+                You're eligible for free shipping!
+            {% else %}
+                You're {{ totalProgress | money }} away from free shipping!
+            {% endif %}
+        </span>
+    </p>
+
+    <div id="progressbar">
+        <div id="progressbar-inner" style="background-color: {{ bannerBackgroundColor }}; width: {{ progressWidth }}%"> </div>
+    </div>
+</div>

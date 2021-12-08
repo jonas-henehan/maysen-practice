@@ -40,6 +40,9 @@ if (!customElements.get('product-form')) {
 
           this.cartNotification.renderContents(response);
         })
+        .then(() => {
+          this.updateBannerPrice();
+        })
         .catch((e) => {
           console.error(e);
         })
@@ -47,6 +50,24 @@ if (!customElements.get('product-form')) {
           submitButton.classList.remove('loading');
           submitButton.removeAttribute('aria-disabled');
           this.querySelector('.loading-overlay__spinner').classList.add('hidden');
+        });
+    }
+
+    updateBannerPrice() {
+      fetch('/cart.js')
+        .then(response => response.json())
+        .then(data => {
+          let setPrice = document.getElementById("merchantSetFreeShippingGoal").innerHTML * 100; //Gets the price set by the merchant in the theme section settings - unformated
+          console.log("Price: " + setPrice);
+          let totalProgress = setPrice - data.total_price;
+  
+          if (totalProgress < 0) {
+            document.getElementById("total-cart-price").innerHTML = "You're eligible for free shipping!";
+          }
+          else {
+            document.getElementById("total-cart-price").innerHTML = `You're $${totalProgress / 100} away from free shipping`;
+          }
+          document.getElementById("progressbar-inner").style.width = (data.total_price / setPrice) * 100 + "%";
         });
     }
 
