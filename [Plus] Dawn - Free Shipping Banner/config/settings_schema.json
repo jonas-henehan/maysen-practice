@@ -87,6 +87,45 @@
     ]
   },
   {
+    "name": "[Plus] Free shipping banner",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Banner settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "plus_show_shipping_banner",
+        "label": "Enable shipping banner",
+        "default": true
+      },
+      {
+        "type": "number",
+        "id": "shipping_goal",
+        "label": "Free shipping goal amount",
+        "default": 200
+      },
+      {
+        "type": "text",
+        "id": "banner_goal_label",
+        "label": "Label when shipping goal is in progress. Use [price] as a placeholder for price",
+        "default": "You're [price] away from free shipping!"
+      },
+      {
+        "type": "text",
+        "id": "finished_goal_label",
+        "label": "Label when shipping goal is reached",
+        "default": "You're eligible for free shipping!"
+      },
+      {
+        "type": "color",
+        "id": "shipping_banner_color",
+        "label": "Colour of free shipping banner",
+        "default": "#0000FF"
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.typography.name",
     "settings": [
       {

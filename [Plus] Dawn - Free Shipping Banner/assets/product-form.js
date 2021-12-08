@@ -57,17 +57,17 @@ if (!customElements.get('product-form')) {
       fetch('/cart.js')
         .then(response => response.json())
         .then(data => {
-          let setPrice = document.getElementById("merchantSetFreeShippingGoal").innerHTML * 100; //Gets the price set by the merchant in the theme section settings - unformated
-          console.log("Price: " + setPrice);
-          let totalProgress = setPrice - data.total_price;
-  
-          if (totalProgress < 0) {
-            document.getElementById("total-cart-price").innerHTML = "You're eligible for free shipping!";
+          let set_price = document.getElementById("merchantSetFreeShippingGoal").innerHTML * 100; //Gets the price set by the merchant in the theme section settings - unformated
+          let set_finished_label = document.getElementById("merchantSetFinishedLabel").innerHTML;
+          let set_in_progress_label = document.getElementById("merchantSetInProgressLabel").innerHTML;
+          let total_progress = set_price - data.total_price;
+
+          if (total_progress <= 0) {
+            document.getElementById("total-cart-price").innerHTML = set_finished_label;
+          } else {
+            document.getElementById("total-cart-price").innerHTML = set_in_progress_label.replace('[price]', `$${(total_progress / 100).toFixed(2)}`);
           }
-          else {
-            document.getElementById("total-cart-price").innerHTML = `You're $${totalProgress / 100} away from free shipping`;
-          }
-          document.getElementById("progressbar-inner").style.width = (data.total_price / setPrice) * 100 + "%";
+          document.getElementById("progressbar-inner").style.width = (data.total_price / set_price) * 100 + "%";
         });
     }
 
