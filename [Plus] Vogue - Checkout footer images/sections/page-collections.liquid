@@ -1,0 +1,62 @@
+{% assign using_linklist = false %}
+{% if linklists['all-collections'] and linklists['all-collections'].links.size > 0 %}
+  {% assign using_linklist = true %}
+{% endif %}
+
+<div class="collections-list">
+  {% if using_linklist %}
+    {% for link in linklists['all-collections'].links %}
+      {% assign collection = link.object %}
+      {%
+        include 'collection-item-block',
+        first_product: true,
+        show_description: section.settings.show_description,
+        collection_cta_url: collection.url,
+        link_collection: false,
+        image_layout: section.settings.image_layout,
+      %}
+    {% endfor %}
+  {% else %}
+    {% for collection in collections %}
+      {%
+        include 'collection-item-block',
+        first_product: true,
+        show_description: section.settings.show_description,
+        collection_cta_url: collection.url,
+        link_collection: false,
+        image_layout: section.settings.image_layout,
+      %}
+    {% endfor %}
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Collections page",
+  "settings": [
+    {
+      "type": "select",
+      "id": "image_layout",
+      "label": "Collection image layout",
+      "options": [
+        {
+          "value": "two_column",
+          "label": "Two column"
+        },
+        {
+          "value": "full_width",
+          "label": "Full Width"
+        }
+      ],
+      "default": "two_column"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show descriptions",
+      "default": true
+    }
+  ]
+}
+
+{% endschema %}

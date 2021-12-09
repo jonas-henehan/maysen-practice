@@ -1,0 +1,108 @@
+<div class="main-navigation-footer">
+  {% include 'main-navigation-social' %}
+
+  {% assign currency_selector = section.settings.show_currency_selector %}
+  {% assign locale_selector = section.settings.show_locale_selector %}
+  {% assign show_cross_border = false %}
+  {% if currency_selector or locale_selector %}
+    {% assign show_cross_border = true %}
+  {% endif %}
+  {% assign show_payment_types = false %}
+  {% if shop.enabled_payment_types.size > 0 and section.settings.show_payment_icons %}
+    {% assign show_payment_types = true %}
+  {% endif %}
+
+  {% if show_cross_border or show_payment_types %}
+    <div class="main-navigation-footer__payments-cross-border">
+      {% if currency_selector or locale_selector %}
+        <div class="main-navigation-footer__cross-border">
+          {% comment %}Inject @pixelunion/shopify-cross-border/cross-border begin{% endcomment %}
+          {% form 'localization' %}
+            {% if locale_selector and form.available_locales.size > 1 %}
+              {% comment %}Inject @pixelunion/shopify-cross-border/multi-language begin{% endcomment %}
+              {% comment %} Generate a "random" number so ids are unique {% endcomment %}
+              {% assign unique_id = "now" | date: "%N" | modulo: 1000 %}
+              
+              <div class="selectors-form__item">
+                <div class="disclosure" data-disclosure-locale>
+                  <h2 class="visually-hidden" id="lang-heading-{{ unique_id }}">
+                    {{ 'general.language.dropdown_label' | t }}
+                  </h2>
+              
+                  <button
+                    type="button"
+                    class="disclosure__toggle"
+                    aria-expanded="false"
+                    aria-controls="lang-list-{{ unique_id }}"
+                    aria-describedby="lang-heading-{{ unique_id }}"
+                    data-disclosure-toggle
+                  >
+                    {{ form.current_locale.endonym_name }}
+                  </button>
+                  <ul id="lang-list-{{ unique_id }}" class="disclosure-list" data-disclosure-list>
+                    {% for locale in form.available_locales %}
+                      <li>
+                        <a class="disclosure-list__item {% if locale.iso_code == form.current_locale.iso_code %}disclosure-list__item--current{% endif %}" href="#" lang="{{ locale.iso_code }}" {% if locale.iso_code == form.current_locale.iso_code %}aria-current="true"{% endif %} data-value="{{ locale.iso_code }}" data-disclosure-option>
+                          <span class="disclosure-list__option">{{ locale.endonym_name }}</span>
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                  <input type="hidden" name="locale_code" id="LocaleSelector-{{ unique_id }}" value="{{ form.current_locale.iso_code }}" data-disclosure-input/>
+                </div>
+              </div>
+              {% comment %}Inject @pixelunion/shopify-cross-border/multi-language end{% endcomment %}
+          
+            {% endif %}
+          
+            {% if currency_selector and form.available_currencies.size > 1 %}
+              {% comment %}Inject @pixelunion/shopify-cross-border/multi-currency begin{% endcomment %}
+              {% comment %} Generate a "random" number so ids are unique {% endcomment %}
+              {% assign unique_id = "now" | date: "%N" | modulo: 1000 %}
+              
+              <div class="selectors-form__item">
+                <div class="disclosure" data-disclosure-currency>
+                  <h2 class="visually-hidden" id="currency-heading-{{ unique_id }}">
+                    {{ 'general.currency.dropdown_label' | t }}
+                  </h2>
+              
+                  <button
+                    type="button"
+                    class="disclosure__toggle"
+                    aria-expanded="false"
+                    aria-controls="currency-list-{{ unique_id }}"
+                    aria-describedby="currency-heading-{{ unique_id }}"
+                    data-disclosure-toggle
+                  >
+                    {{ form.current_currency.iso_code }} {%- if form.current_currency.symbol -%}{{ form.current_currency.symbol }}{%- endif -%}
+                  </button>
+                  <ul id="currency-list-{{ unique_id }}" class="disclosure-list" data-disclosure-list>
+                    {% for currency in form.available_currencies %}
+                      <li>
+                        <a class="disclosure-list__item {% if currency.iso_code == form.current_currency.iso_code %}disclosure-list__item--current{% endif %}" href="#" {% if currency.iso_code == form.current_currency.iso_code %}aria-current="true"{% endif %} data-value="{{ currency.iso_code }}" data-disclosure-option>
+                          <span class="disclosure-list__option">{{ currency.iso_code }} {%- if currency.symbol -%}{{ currency.symbol }}{%- endif -%}</span>
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                  <input type="hidden" name="currency_code" id="CurrencySelector-{{ unique_id }}" value="{{ form.current_currency.iso_code }}" data-disclosure-input/>
+                </div>
+              </div>
+              {% comment %}Inject @pixelunion/shopify-cross-border/multi-currency end{% endcomment %}
+          
+            {% endif %}
+          {% endform %}
+          {% comment %}Inject @pixelunion/shopify-cross-border/cross-border end{% endcomment %}
+
+        </div>
+      {% endif %}
+
+      {% if show_payment_types %}
+        {% include 'payment-icons' %}
+      {% endif %}
+    </div>
+  {% endif %}
+  {% if section.settings.show_copyright_text %}
+    {% include 'footer-copyright' %}
+  {% endif %}
+</div>

@@ -1,0 +1,10 @@
+
+{% if shop.enabled_payment_types.size > 0 %}
+  <div class="payment-types">
+    {% for type in shop.enabled_payment_types %}
+      <div class="payment-type">
+        {{ type | payment_type_svg_tag }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}

@@ -1,0 +1,53 @@
+{% if section.settings.show_product_recommendations %}
+  {% assign product_limit = 3 %}
+
+  <script
+    type="application/json"
+    data-section-type="product-recommendations"
+    data-section-id="{{ section.id }}"
+    data-section-data
+  >
+    {
+      "settings": {
+        "limit": {{ product_limit }}
+      },
+      "productId": {{ product.id | json }}
+    }
+  </script>
+
+  <div class="recommended-products" data-html data-product-recommendations>
+    {% if recommendations.products_count > 0 %}
+        <h2 class="recommended-products-title">{{ section.settings.product_recommendations_heading }}</h2>
+
+        <div class="recommended-products-items">
+          {% for prod in recommendations.products limit: product_limit %}
+            {% include 'recommended-product', item: prod, collection: collection %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Recommended products",
+  "class": "static-product-recommendations",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_product_recommendations",
+      "label": "Show dynamic recommendations",
+      "info": "Dynamic recommendations change and improve with time. [Learn more](https://help.shopify.com/en/themes/development/recommended-products)",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "product_recommendations_heading",
+      "label": "Heading",
+      "default": "You may also like"
+    }
+  ]
+}
+
+{% endschema %}

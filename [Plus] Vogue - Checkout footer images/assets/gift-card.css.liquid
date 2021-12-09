@@ -1,0 +1,1786 @@
+{%- comment -%}font_body{%- endcomment -%}
+
+{%- assign fonts_font_body_display = "swap" | default: 'auto' -%}
+
+  {%- comment -%}Normal{%- endcomment -%}
+
+  {%- assign fonts_font_body_family = settings.font_body.family | append: ',' | append: settings.font_body.fallback_families -%}
+  {%- assign fonts_font_body_style = settings.font_body.style -%}
+  {%- assign fonts_font_body_weight = settings.font_body.weight | times: 1 -%}
+  {{ settings.font_body | font_face: font_display: fonts_font_body_display }}
+
+  {%- comment -%}Italic{%- endcomment -%}
+
+  {%- assign fonts_font_body_style_italic = settings.font_body | font_modify: 'style', 'italic' | map: 'style' | default: 'italic' -%}
+  {{ settings.font_body | font_modify: 'style', 'italic' | font_face: font_display: fonts_font_body_display }}
+
+  {%- comment -%}Bolder{%- endcomment -%}
+
+  {%- assign fonts_weight_adjustment_default = 700 -%}
+  {%- if fonts_font_body_weight > 700 -%}
+    {%- assign fonts_weight_adjustment_default = fonts_font_body_weight -%}
+  {%- endif -%}
+  {%- assign fonts_font_body_bolder = settings.font_body | font_modify: 'weight', 'bolder' -%}
+  {%- assign fonts_font_body_weight_bolder = fonts_font_body_bolder.weight | default: fonts_weight_adjustment_default -%}
+  {{ fonts_font_body_bolder | font_face: font_display: fonts_font_body_display }}
+  {{ fonts_font_body_bolder | font_modify: 'style', 'italic' | font_face: font_display: fonts_font_body_display }}
+
+
+{%- comment -%}font_headings{%- endcomment -%}
+
+{%- assign fonts_font_headings_display = "swap" | default: 'auto' -%}
+
+  {%- comment -%}Normal{%- endcomment -%}
+
+  {%- assign fonts_font_headings_family = settings.font_headings.family | append: ',' | append: settings.font_headings.fallback_families -%}
+  {%- assign fonts_font_headings_style = settings.font_headings.style -%}
+  {%- assign fonts_font_headings_weight = settings.font_headings.weight | times: 1 -%}
+  {{ settings.font_headings | font_face: font_display: fonts_font_headings_display }}
+
+  {%- comment -%}Italic{%- endcomment -%}
+
+  {%- assign fonts_font_headings_style_italic = settings.font_headings | font_modify: 'style', 'italic' | map: 'style' | default: 'italic' -%}
+  {{ settings.font_headings | font_modify: 'style', 'italic' | font_face: font_display: fonts_font_headings_display }}
+
+  {%- comment -%}Bolder{%- endcomment -%}
+
+  {%- assign fonts_weight_adjustment_default = 700 -%}
+  {%- if fonts_font_headings_weight > 700 -%}
+    {%- assign fonts_weight_adjustment_default = fonts_font_headings_weight -%}
+  {%- endif -%}
+  {%- assign fonts_font_headings_bolder = settings.font_headings | font_modify: 'weight', 'bolder' -%}
+  {%- assign fonts_font_headings_weight_bolder = fonts_font_headings_bolder.weight | default: fonts_weight_adjustment_default -%}
+  {{ fonts_font_headings_bolder | font_face: font_display: fonts_font_headings_display }}
+  {{ fonts_font_headings_bolder | font_modify: 'style', 'italic' | font_face: font_display: fonts_font_headings_display }}
+
+
+{%- comment -%}font_testimonials_and_tweets{%- endcomment -%}
+
+{%- assign fonts_font_testimonials_and_tweets_display = "swap" | default: 'auto' -%}
+
+  {%- comment -%}Normal{%- endcomment -%}
+
+  {%- assign fonts_font_testimonials_and_tweets_family = settings.font_testimonials_and_tweets.family | append: ',' | append: settings.font_testimonials_and_tweets.fallback_families -%}
+  {%- assign fonts_font_testimonials_and_tweets_style = settings.font_testimonials_and_tweets.style -%}
+  {%- assign fonts_font_testimonials_and_tweets_weight = settings.font_testimonials_and_tweets.weight | times: 1 -%}
+  {{ settings.font_testimonials_and_tweets | font_face: font_display: fonts_font_testimonials_and_tweets_display }}
+
+  {%- comment -%}Italic{%- endcomment -%}
+
+  {%- assign fonts_font_testimonials_and_tweets_style_italic = settings.font_testimonials_and_tweets | font_modify: 'style', 'italic' | map: 'style' | default: 'italic' -%}
+  {{ settings.font_testimonials_and_tweets | font_modify: 'style', 'italic' | font_face: font_display: fonts_font_testimonials_and_tweets_display }}
+{% assign body_color = settings.body_text_color %}
+  {% assign color_white = '#ffffff' %}
+  {% assign color_black = '#000000' %}
+  {% assign error_color = '#ff0000' %}
+  {% assign accent_color = settings.accent_color %}
+  {% assign color_transparent = settings.background_color %}
+  {% capture color_background %}{% comment %}Inject color-transparent begin{% endcomment %}
+{%- capture _ -%}
+{% comment %}
+  Check to see if a color is black and transparent.
+  If color is fully transparent, but black, then return opaque white for further adjustments
+ @param color_transparent
+{% endcomment %}
+
+{% assign color_transparent_alpha = color_transparent | color_extract: 'alpha' %}
+{% assign color_transparent_red = color_transparent | color_extract: 'red' %}
+{% assign color_transparent_green = color_transparent | color_extract: 'green' %}
+{% assign color_transparent_blue = color_transparent | color_extract: 'blue' %}
+
+{% if
+  color_transparent_alpha == 0
+  and color_transparent_red == 0
+  and color_transparent_green == 0
+  and color_transparent_blue == 0
+%}
+  {% assign color_transparent_result = 'rgba(255, 255, 255, 1)' %}
+{% else %}
+  {% assign color_transparent_result = color_transparent | color_to_rgb %}
+{% endif %}
+{%- endcapture -%}
+{{ color_transparent_result }}
+{% comment %}Inject color-transparent end{% endcomment %}
+{% endcapture %}
+{% assign contrast_base_color = settings.body_text_color %}
+  {% assign contrast_adjustment = 30 %}
+  {% capture body_color_contrast %}{% comment %}Inject contrast begin{% endcomment %}
+{% comment %}
+Calculate contrasting colour based on lightness of supplied colour value
+
+@param contrast_base_color {String}
+  Color setting on which to base the calculation
+@param contrast_adjustment {Integer}
+  A value indicating the percentage of contrast to be applied
+{% endcomment %}
+
+{% assign color_lightness = contrast_base_color | color_extract: 'lightness' %}
+
+{% if color_lightness > 50 %}
+  {% assign contrast_color = contrast_base_color | color_darken: contrast_adjustment %}
+{% else %}
+  {% assign contrast_color = contrast_base_color | color_lighten: contrast_adjustment %}
+{% endif %}
+
+{{ contrast_color }}
+
+{% assign contrast_base_color = blank %}
+{% assign contrast_adjustment = blank %}
+{% comment %}Inject contrast end{% endcomment %}
+{% endcapture %}
+
+  {% assign contrast_base_color = color_background %}
+  {% assign contrast_adjustment = 30 %}
+  {% capture alternate_background_color_contrast %}{% comment %}Inject contrast begin{% endcomment %}
+{% comment %}
+Calculate contrasting colour based on lightness of supplied colour value
+
+@param contrast_base_color {String}
+  Color setting on which to base the calculation
+@param contrast_adjustment {Integer}
+  A value indicating the percentage of contrast to be applied
+{% endcomment %}
+
+{% assign color_lightness = contrast_base_color | color_extract: 'lightness' %}
+
+{% if color_lightness > 50 %}
+  {% assign contrast_color = contrast_base_color | color_darken: contrast_adjustment %}
+{% else %}
+  {% assign contrast_color = contrast_base_color | color_lighten: contrast_adjustment %}
+{% endif %}
+
+{{ contrast_color }}
+
+{% assign contrast_base_color = blank %}
+{% assign contrast_adjustment = blank %}
+{% comment %}Inject contrast end{% endcomment %}
+{% endcapture %}
+
+  {% assign contrast_base_color = settings.accent_color %}
+  {% assign contrast_adjustment = 6 %}
+  {% capture post_background_image_contrast %}{% comment %}Inject contrast begin{% endcomment %}
+{% comment %}
+Calculate contrasting colour based on lightness of supplied colour value
+
+@param contrast_base_color {String}
+  Color setting on which to base the calculation
+@param contrast_adjustment {Integer}
+  A value indicating the percentage of contrast to be applied
+{% endcomment %}
+
+{% assign color_lightness = contrast_base_color | color_extract: 'lightness' %}
+
+{% if color_lightness > 50 %}
+  {% assign contrast_color = contrast_base_color | color_darken: contrast_adjustment %}
+{% else %}
+  {% assign contrast_color = contrast_base_color | color_lighten: contrast_adjustment %}
+{% endif %}
+
+{{ contrast_color }}
+
+{% assign contrast_base_color = blank %}
+{% assign contrast_adjustment = blank %}
+{% comment %}Inject contrast end{% endcomment %}
+{% endcapture %}
+{% assign sidebar_color = body_color %}
+  {% assign sidebar_background_color = settings.sidebar_background_color %}
+
+  {% assign sidebar_color_hover = sidebar_color %}
+  {% assign contrast_adjustment = 30 %}
+  {% capture sidebar_color_hover %}{% comment %}Inject contrast begin{% endcomment %}
+{% comment %}
+Calculate contrasting colour based on lightness of supplied colour value
+
+@param contrast_base_color {String}
+  Color setting on which to base the calculation
+@param contrast_adjustment {Integer}
+  A value indicating the percentage of contrast to be applied
+{% endcomment %}
+
+{% assign color_lightness = contrast_base_color | color_extract: 'lightness' %}
+
+{% if color_lightness > 50 %}
+  {% assign contrast_color = contrast_base_color | color_darken: contrast_adjustment %}
+{% else %}
+  {% assign contrast_color = contrast_base_color | color_lighten: contrast_adjustment %}
+{% endif %}
+
+{{ contrast_color }}
+
+{% assign contrast_base_color = blank %}
+{% assign contrast_adjustment = blank %}
+{% comment %}Inject contrast end{% endcomment %}
+{% endcapture %}
+{% assign collection_color_default = settings.collection_color_default %}
+{% assign listing_color_background = settings.listing_text_background_color %}
+  {% assign listing_color_background_opacity = settings.listing_text_background_alpha | divided_by: 100.00 %}
+{% assign button_color_background = settings.button_background_color %}
+
+  {% assign button_color_hover = settings.button_color %}
+  {% assign contrast_adjustment = 30 %}
+  {% capture button_color_hover %}{% comment %}Inject contrast begin{% endcomment %}
+{% comment %}
+Calculate contrasting colour based on lightness of supplied colour value
+
+@param contrast_base_color {String}
+  Color setting on which to base the calculation
+@param contrast_adjustment {Integer}
+  A value indicating the percentage of contrast to be applied
+{% endcomment %}
+
+{% assign color_lightness = contrast_base_color | color_extract: 'lightness' %}
+
+{% if color_lightness > 50 %}
+  {% assign contrast_color = contrast_base_color | color_darken: contrast_adjustment %}
+{% else %}
+  {% assign contrast_color = contrast_base_color | color_lighten: contrast_adjustment %}
+{% endif %}
+
+{{ contrast_color }}
+
+{% assign contrast_base_color = blank %}
+{% assign contrast_adjustment = blank %}
+{% comment %}Inject contrast end{% endcomment %}
+{% endcapture %}
+
+  {% assign button_background_color_hover = button_color_background %}
+  {% assign contrast_adjustment = 30 %}
+  {% capture button_background_color_hover %}{% comment %}Inject contrast begin{% endcomment %}
+{% comment %}
+Calculate contrasting colour based on lightness of supplied colour value
+
+@param contrast_base_color {String}
+  Color setting on which to base the calculation
+@param contrast_adjustment {Integer}
+  A value indicating the percentage of contrast to be applied
+{% endcomment %}
+
+{% assign color_lightness = contrast_base_color | color_extract: 'lightness' %}
+
+{% if color_lightness > 50 %}
+  {% assign contrast_color = contrast_base_color | color_darken: contrast_adjustment %}
+{% else %}
+  {% assign contrast_color = contrast_base_color | color_lighten: contrast_adjustment %}
+{% endif %}
+
+{{ contrast_color }}
+
+{% assign contrast_base_color = blank %}
+{% assign contrast_adjustment = blank %}
+{% comment %}Inject contrast end{% endcomment %}
+{% endcapture %}
+
+  {% assign alternate_button_background_hover = button_color_background | color_desaturate: 100 %}
+  {% assign contrast_adjustment = 30 %}
+  {% capture alternate_button_background_hover %}{% comment %}Inject contrast begin{% endcomment %}
+{% comment %}
+Calculate contrasting colour based on lightness of supplied colour value
+
+@param contrast_base_color {String}
+  Color setting on which to base the calculation
+@param contrast_adjustment {Integer}
+  A value indicating the percentage of contrast to be applied
+{% endcomment %}
+
+{% assign color_lightness = contrast_base_color | color_extract: 'lightness' %}
+
+{% if color_lightness > 50 %}
+  {% assign contrast_color = contrast_base_color | color_darken: contrast_adjustment %}
+{% else %}
+  {% assign contrast_color = contrast_base_color | color_lighten: contrast_adjustment %}
+{% endif %}
+
+{{ contrast_color }}
+
+{% assign contrast_base_color = blank %}
+{% assign contrast_adjustment = blank %}
+{% comment %}Inject contrast end{% endcomment %}
+{% endcapture %}
+
+  {% assign alternate_button_hover = settings.button_color %}
+  {% assign contrast_adjustment = 30 %}
+  {% capture alternate_button_hover %}{% comment %}Inject contrast begin{% endcomment %}
+{% comment %}
+Calculate contrasting colour based on lightness of supplied colour value
+
+@param contrast_base_color {String}
+  Color setting on which to base the calculation
+@param contrast_adjustment {Integer}
+  A value indicating the percentage of contrast to be applied
+{% endcomment %}
+
+{% assign color_lightness = contrast_base_color | color_extract: 'lightness' %}
+
+{% if color_lightness > 50 %}
+  {% assign contrast_color = contrast_base_color | color_darken: contrast_adjustment %}
+{% else %}
+  {% assign contrast_color = contrast_base_color | color_lighten: contrast_adjustment %}
+{% endif %}
+
+{{ contrast_color }}
+
+{% assign contrast_base_color = blank %}
+{% assign contrast_adjustment = blank %}
+{% comment %}Inject contrast end{% endcomment %}
+{% endcapture %}
+
+  {% assign accent_color_hover = settings.accent_color %}
+  {% assign contrast_adjustment = 6 %}
+  {% capture accent_color_hover %}{% comment %}Inject contrast begin{% endcomment %}
+{% comment %}
+Calculate contrasting colour based on lightness of supplied colour value
+
+@param contrast_base_color {String}
+  Color setting on which to base the calculation
+@param contrast_adjustment {Integer}
+  A value indicating the percentage of contrast to be applied
+{% endcomment %}
+
+{% assign color_lightness = contrast_base_color | color_extract: 'lightness' %}
+
+{% if color_lightness > 50 %}
+  {% assign contrast_color = contrast_base_color | color_darken: contrast_adjustment %}
+{% else %}
+  {% assign contrast_color = contrast_base_color | color_lighten: contrast_adjustment %}
+{% endif %}
+
+{{ contrast_color }}
+
+{% assign contrast_base_color = blank %}
+{% assign contrast_adjustment = blank %}
+{% comment %}Inject contrast end{% endcomment %}
+{% endcapture %}
+{% assign border_mix_local_background = color_background %}
+  {% assign border_mix_local_dark = color_black %}
+  {% assign border_mix_local_light = color_white %}
+  {% capture border_mix %}{% comment %}Inject border-mix begin{% endcomment %}
+{%- capture _ -%}
+  {% comment %}
+    If background is dark return appropriate color
+    @param border_mix_local_background
+    @param border_mix_local_dark
+    @param border_mix_local_light
+  {% endcomment %}
+
+  {% assign border_mix_lightness = border_mix_local_background | color_extract: 'lightness' %}
+  {% if border_mix_lightness >= 50 %}
+    {% assign border_mix_result = border_mix_local_dark %}
+  {% else %}
+    {% assign border_mix_result = border_mix_local_light %}
+  {% endif %}
+{%- endcapture -%}
+{{ border_mix_result }}
+{% comment %}Inject border-mix end{% endcomment %}
+{% endcapture %}
+  {% assign color_border = color_background | color_mix: border_mix, 10 %}
+{% assign grid_spacing = settings.grid_spacing %}
+  {% assign gutter = 20 | append: 'px' %}
+/* Section specific
+------------------------- */
+{% assign collection_1_color = settings.collection_1_color %}
+  {% assign rimg_collection_1_color = settings.collection_1_color| color_darken: 10 %}
+{% assign collection_2_color = settings.collection_2_color %}
+  {% assign rimg_collection_2_color = settings.collection_2_color| color_darken: 10 %}
+{% assign collection_3_color = settings.collection_3_color %}
+  {% assign rimg_collection_3_color = settings.collection_3_color| color_darken: 10 %}
+{% assign collection_4_color = settings.collection_4_color %}
+  {% assign rimg_collection_4_color = settings.collection_4_color| color_darken: 10 %}
+{% assign collection_5_color = settings.collection_5_color %}
+  {% assign rimg_collection_5_color = settings.collection_5_color| color_darken: 10 %}
+{% assign collection_6_color = settings.collection_6_color %}
+  {% assign rimg_collection_6_color = settings.collection_6_color| color_darken: 10 %}
+{% assign collection_7_color = settings.collection_7_color %}
+  {% assign rimg_collection_7_color = settings.collection_7_color| color_darken: 10 %}
+{% assign collection_8_color = settings.collection_8_color %}
+  {% assign rimg_collection_8_color = settings.collection_8_color| color_darken: 10 %}
+{% assign collection_9_color = settings.collection_9_color %}
+  {% assign rimg_collection_9_color = settings.collection_9_color| color_darken: 10 %}
+{% assign collection_10_color = settings.collection_10_color %}
+  {% assign rimg_collection_10_color = settings.collection_10_color| color_darken: 10 %}
+{% assign collection_11_color = settings.collection_11_color %}
+  {% assign rimg_collection_11_color = settings.collection_11_color| color_darken: 10 %}
+{% assign collection_12_color = settings.collection_12_color %}
+  {% assign rimg_collection_12_color = settings.collection_12_color| color_darken: 10 %}
+.rte {
+  *zoom: 1;
+}
+.rte:before, .rte:after {
+  display: table;
+  content: "";
+}
+.rte:after {
+  clear: both;
+}
+
+body.overlay-visible {
+  overflow: hidden;
+}
+
+.gift-card-header {
+  display: table;
+  max-height: 100%;
+}
+.gift-card-header a {
+  display: table-cell;
+  width: 100%;
+  font-size: 1.6rem;
+  vertical-align: middle;
+  text-decoration: none;
+}
+.gift-card-header .logo {
+  display: block;
+  max-width: 300px;
+}
+.gift-card-header .logo-text {
+  font-family: {{ fonts_font_headings_family }};
+  font-style: {{ fonts_font_headings_style }};
+  font-weight: {{ fonts_font_headings_weight }};
+  display: block;
+  max-width: 100%;
+  line-height: 1.1;
+}
+
+.input-label.input-label-hidden,
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+  -webkit-clip-path: inset(1px);
+          clip-path: inset(1px);
+}
+
+.button-like-link, .empty a, .pagination-link.pagination-active,
+.pagination-link a {
+  transition: color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  display: inline-block;
+  color: inherit;
+  text-decoration: none;
+}
+.button-like-link::after, .empty a::after, .pagination-link.pagination-active::after,
+.pagination-link a::after {
+  transition: background-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: absolute;
+  bottom: 1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  pointer-events: none;
+  background-color: {{ accent_color }};
+  content: "";
+  opacity: 0;
+}
+.button-like-link:hover::after, .empty a:hover::after, .pagination-link.pagination-active:hover::after,
+.pagination-link a:hover::after {
+  opacity: 1;
+}
+
+.rte a, .empty a {
+  color: {{ accent_color }};
+}
+.rte a:hover, .empty a:hover {
+  color: {{ accent_color_hover }};
+}
+
+.select-wrapper {
+  position: relative;
+}
+.select-wrapper select {
+  transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  padding-top: 14px;
+  padding-right: 28px;
+  padding-bottom: 14px;
+  padding-left: 14px;
+  font-size: 0.8666666667rem;
+  line-height: 1.3;
+  color: {{ body_color }};
+  text-indent: 0.01px;
+  text-overflow: "";
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid {{ body_color | color_modify: 'alpha', 0.1 }};
+  border-radius: 1px;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+.select-wrapper select::-ms-expand {
+  display: none;
+}
+.select-wrapper::after {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  vertical-align: top;
+  content: "";
+}
+
+.select-wrapper::after {
+  transform: translateY(-5px) rotate(135deg);
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-style: solid;
+  border-width: 1px 1px 0 0;
+}
+
+.input-label {
+  font-family: {{ fonts_font_headings_family }};
+  font-style: {{ fonts_font_headings_style }};
+  font-weight: {{ fonts_font_headings_weight }};
+  font-size: 17px;
+}
+
+.button-like-link, .button {
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  -webkit-appearance: normal;
+     -moz-appearance: normal;
+          appearance: normal;
+}
+
+@keyframes modal-loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes flickity-progress {
+  100% {
+    transform: translate(-50%, -50%) scaleX(1);
+  }
+}
+/*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */
+/**
+ * 1. Change the default font family in all browsers (opinionated).
+ * 2. Prevent adjustments of font size after orientation changes in IE and iOS.
+ */
+html {
+  font-family: sans-serif;
+  /* 1 */
+  -ms-text-size-adjust: 100%;
+  /* 2 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
+}
+
+/**
+ * Remove the margin in all browsers (opinionated).
+ */
+body {
+  margin: 0;
+}
+
+/* HTML5 display definitions
+   ========================================================================== */
+/**
+ * Add the correct display in IE 9-.
+ * 1. Add the correct display in Edge, IE, and Firefox.
+ * 2. Add the correct display in IE.
+ */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section,
+summary {
+  /* 1 */
+  display: block;
+}
+
+/**
+ * Add the correct display in IE 9-.
+ */
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
+}
+
+/**
+ * Add the correct display in iOS 4-7.
+ */
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+/**
+ * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+ */
+progress {
+  vertical-align: baseline;
+}
+
+/**
+ * Add the correct display in IE 10-.
+ * 1. Add the correct display in IE.
+ */
+template,
+[hidden] {
+  display: none;
+}
+
+/* Links
+   ========================================================================== */
+/**
+ * 1. Remove the gray background on active links in IE 10.
+ * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.
+ */
+a {
+  background-color: transparent;
+  /* 1 */
+  -webkit-text-decoration-skip: objects;
+  /* 2 */
+}
+
+/**
+ * Remove the outline on focused links when they are also active or hovered
+ * in all browsers (opinionated).
+ */
+a:active,
+a:hover {
+  outline-width: 0;
+}
+
+/* Text-level semantics
+   ========================================================================== */
+/**
+ * 1. Remove the bottom border in Firefox 39-.
+ * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+ */
+abbr[title] {
+  border-bottom: none;
+  /* 1 */
+  text-decoration: underline;
+  /* 2 */
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted;
+  /* 2 */
+}
+
+/**
+ * Prevent the duplicate application of `bolder` by the next rule in Safari 6.
+ */
+b,
+strong {
+  font-weight: inherit;
+}
+
+/**
+ * Add the correct font style in Android 4.3-.
+ */
+dfn {
+  font-style: italic;
+}
+
+/**
+ * Correct the font size and margin on `h1` elements within `section` and
+ * `article` contexts in Chrome, Firefox, and Safari.
+ */
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/**
+ * Add the correct background and color in IE 9-.
+ */
+mark {
+  background-color: #ff0;
+  color: #000;
+}
+
+/**
+ * Add the correct font size in all browsers.
+ */
+small {
+  font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` elements from affecting the line height in
+ * all browsers.
+ */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* Embedded content
+   ========================================================================== */
+/**
+ * Remove the border on images inside links in IE 10-.
+ */
+img {
+  border-style: none;
+}
+
+/**
+ * Hide the overflow in IE.
+ */
+svg:not(:root) {
+  overflow: hidden;
+}
+
+/* Grouping content
+   ========================================================================== */
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+  /* 1 */
+  font-size: 1em;
+  /* 2 */
+}
+
+/**
+ * Add the correct margin in IE 8.
+ */
+figure {
+  margin: 1em 40px;
+}
+
+/**
+ * 1. Add the correct box sizing in Firefox.
+ * 2. Show the overflow in Edge and IE.
+ */
+hr {
+  box-sizing: content-box;
+  /* 1 */
+  height: 0;
+  /* 1 */
+  overflow: visible;
+  /* 2 */
+}
+
+/* Forms
+   ========================================================================== */
+/**
+ * 1. Change font properties to `inherit` in all browsers (opinionated).
+ * 2. Remove the margin in Firefox and Safari.
+ */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  /* 1 */
+  margin: 0;
+  /* 2 */
+}
+
+/**
+ * Restore the font weight unset by the previous rule.
+ */
+optgroup {
+  font-weight: bold;
+}
+
+/**
+ * Show the overflow in IE.
+ * 1. Show the overflow in Edge.
+ */
+button,
+input {
+  /* 1 */
+  overflow: visible;
+}
+
+/**
+ * Remove the inheritance of text transform in Edge, Firefox, and IE.
+ * 1. Remove the inheritance of text transform in Firefox.
+ */
+button,
+select {
+  /* 1 */
+  text-transform: none;
+}
+
+/**
+ * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`
+ *    controls in Android 4.
+ * 2. Correct the inability to style clickable types in iOS and Safari.
+ */
+button,
+html [type=button],
+[type=reset],
+[type=submit] {
+  -webkit-appearance: button;
+     -moz-appearance: button;
+          appearance: button;
+  /* 2 */
+}
+
+/**
+ * Remove the inner border and padding in Firefox.
+ */
+button::-moz-focus-inner,
+[type=button]::-moz-focus-inner,
+[type=reset]::-moz-focus-inner,
+[type=submit]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+/**
+ * Restore the focus styles unset by the previous rule.
+ */
+button:-moz-focusring,
+[type=button]:-moz-focusring,
+[type=reset]:-moz-focusring,
+[type=submit]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+/**
+ * Change the border, margin, and padding in all browsers (opinionated).
+ */
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+
+/**
+ * 1. Correct the text wrapping in Edge and IE.
+ * 2. Correct the color inheritance from `fieldset` elements in IE.
+ * 3. Remove the padding so developers are not caught out when they zero out
+ *    `fieldset` elements in all browsers.
+ */
+legend {
+  box-sizing: border-box;
+  /* 1 */
+  color: inherit;
+  /* 2 */
+  display: table;
+  /* 1 */
+  max-width: 100%;
+  /* 1 */
+  padding: 0;
+  /* 3 */
+  white-space: normal;
+  /* 1 */
+}
+
+/**
+ * Remove the default vertical scrollbar in IE.
+ */
+textarea {
+  overflow: auto;
+}
+
+/**
+ * 1. Add the correct box sizing in IE 10-.
+ * 2. Remove the padding in IE 10-.
+ */
+[type=checkbox],
+[type=radio] {
+  box-sizing: border-box;
+  /* 1 */
+  padding: 0;
+  /* 2 */
+}
+
+/**
+ * Correct the cursor style of increment and decrement buttons in Chrome.
+ */
+[type=number]::-webkit-inner-spin-button,
+[type=number]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/**
+ * 1. Correct the odd appearance in Chrome and Safari.
+ * 2. Correct the outline style in Safari.
+ */
+[type=search] {
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
+  /* 1 */
+  outline-offset: -2px;
+  /* 2 */
+}
+
+/**
+ * Remove the inner padding and cancel buttons in Chrome and Safari on OS X.
+ */
+[type=search]::-webkit-search-cancel-button,
+[type=search]::-webkit-search-decoration {
+  -webkit-appearance: none;
+          appearance: none;
+}
+
+/**
+ * Correct the text style of placeholders in Chrome, Edge, and Safari.
+ */
+::-webkit-input-placeholder {
+  color: inherit;
+  opacity: 0.54;
+}
+
+/**
+ * 1. Correct the inability to style clickable types in iOS and Safari.
+ * 2. Change font properties to `inherit` in Safari.
+ */
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+          appearance: button;
+  /* 1 */
+  font: inherit;
+  /* 2 */
+}
+
+table {
+  color: {{ body_color }};
+  background: transparent;
+  border: 1px solid {{ color_border }};
+  border-collapse: collapse;
+  border-top: 0;
+  border-radius: 0;
+}
+
+td,
+th {
+  padding: 20px;
+  border-top: 1px solid {{ color_border }};
+  border-left: 1px solid {{ color_border }};
+}
+td:first-child,
+th:first-child {
+  border-left: 0;
+}
+
+th {
+  font-weight: {{ fonts_font_body_weight_bolder }};
+  text-align: left;
+}
+
+html {
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.625;
+  color: {{ body_color }};
+}
+
+body {
+  font-family: {{ fonts_font_body_family }};
+  font-style: {{ fonts_font_body_style }};
+  font-weight: {{ fonts_font_body_weight }};
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: {{ fonts_font_headings_family }};
+  font-style: {{ fonts_font_headings_style }};
+  font-weight: {{ fonts_font_headings_weight }};
+}
+h1 b,
+h1 strong,
+h2 b,
+h2 strong,
+h3 b,
+h3 strong,
+h4 b,
+h4 strong,
+h5 b,
+h5 strong,
+h6 b,
+h6 strong {
+  font-weight: {{ fonts_font_headings_weight_bolder }};
+}
+h1 em,
+h2 em,
+h3 em,
+h4 em,
+h5 em,
+h6 em {
+  font-style: {{ fonts_font_headings_style_italic }};
+}
+h1 b em,
+h1 strong em,
+h1 em b,
+h1 em strong,
+h2 b em,
+h2 strong em,
+h2 em b,
+h2 em strong,
+h3 b em,
+h3 strong em,
+h3 em b,
+h3 em strong,
+h4 b em,
+h4 strong em,
+h4 em b,
+h4 em strong,
+h5 b em,
+h5 strong em,
+h5 em b,
+h5 em strong,
+h6 b em,
+h6 strong em,
+h6 em b,
+h6 em strong {
+  font-style: {{ fonts_font_headings_style_italic }};
+}
+
+h1 {
+  margin-top: 3.7333333333rem;
+  font-size: 1.8666666667rem;
+  line-height: 2.4rem;
+}
+
+h2 {
+  margin-top: 3.2rem;
+  font-size: 1.6rem;
+  line-height: 2rem;
+}
+
+h3 {
+  margin-top: 2.8rem;
+  font-size: 1.4666666667rem;
+  line-height: 1.8666666667rem;
+}
+
+h4 {
+  margin-top: 2.4rem;
+  font-size: 1.3333333333rem;
+  line-height: 1.6666666667rem;
+}
+
+h5 {
+  margin-top: 2.1333333333rem;
+  font-size: 1.2rem;
+  line-height: 1.5333333333rem;
+}
+
+h6 {
+  margin-top: 1.8666666667rem;
+  font-size: 1.0666666667rem;
+  line-height: 1.3333333333rem;
+}
+
+img {
+  max-width: 100%;
+}
+
+ul {
+  list-style: outside none;
+}
+
+ol {
+  list-style: outside decimal;
+}
+
+hr {
+  height: 2px;
+  background: {{ color_border }};
+  border: 0;
+}
+
+blockquote > *:first-child {
+  margin-top: 0;
+}
+blockquote > *:last-child {
+  margin-bottom: 0;
+}
+
+cite {
+  color: {{ accent_color }};
+}
+
+b,
+strong {
+  font-weight: {{ fonts_font_body_weight_bolder }};
+}
+
+em {
+  font-style: {{ fonts_font_body_style_italic }};
+}
+
+b em,
+strong em,
+em b,
+em strong {
+  font-style: {{ fonts_font_body_style_italic }};
+}
+
+.inline-input-wrapper label {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.input-label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+.inline-input-button-wrapper .input-field,
+.inline-input-button-wrapper .button {
+  height: 3rem;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 45px;
+}
+.inline-input-button-wrapper .button {
+  float: right;
+  margin-left: 10px;
+}
+
+.inline-input-wrapper {
+  overflow: hidden;
+}
+.inline-input-wrapper .input-field {
+  width: 100%;
+}
+
+.input-field {
+  display: block;
+  padding: 14px 20px;
+  font-size: 0.8666666667rem;
+  line-height: 1.3;
+  color: {{ body_color }};
+  background-color: transparent;
+  border: 1px solid {{ color_border }};
+  border-radius: 1px;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+.input-field::-webkit-input-placeholder, .input-field::-ms-input-placeholder, .input-field:-ms-input-placeholder {
+  color: {{ body_color_contrast }};
+}
+
+.input-field.error,
+.input-select.error {
+  color: {{ error_color }};
+  border: 1px solid {{ error_color }};
+}
+.input-field.error::-webkit-input-placeholder, .input-field.error::-ms-input-placeholder, .input-field.error:-ms-input-placeholder,
+.input-select.error::-webkit-input-placeholder,
+.input-select.error::-ms-input-placeholder,
+.input-select.error:-ms-input-placeholder {
+  color: contrast({{ error_color }}, 30%);
+}
+
+.input-wrapper:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.error-message,
+.errors {
+  margin-top: 0.3333333333rem;
+  font-size: 0.9333333333rem;
+  color: {{ error_color }};
+}
+.error-message ul,
+.errors ul {
+  padding: 0;
+}
+
+html {
+  box-sizing: border-box;
+}
+html::after {
+  display: none;
+  content: "XS";
+}
+@media screen and (min-width: 500px) {
+  html::after {
+    content: "S";
+  }
+}
+@media screen and (min-width: 720px) {
+  html::after {
+    content: "MS";
+  }
+}
+@media screen and (min-width: 960px) {
+  html::after {
+    content: "M";
+  }
+}
+@media screen and (min-width: 1060px) {
+  html::after {
+    content: "L";
+  }
+}
+@media screen and (min-width: 1280px) {
+  html::after {
+    content: "XL";
+  }
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  color: {{ body_color }};
+  background-color: {{ color_background }};
+}
+.content-wrapper {
+  z-index: 1000;
+  width: 100%;
+  margin: 0;
+}
+@media screen and (min-width: 720px) {
+  .sidebar-always-visible .content-wrapper {
+    width: calc(100% - (300px + {{ grid_spacing }}));
+    margin-left: calc(300px + {{ grid_spacing }});
+  }
+  .template-product.sidebar-always-visible .content-wrapper {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+.main-content {
+  position: relative;
+}
+
+.content-overlay {
+  transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1800;
+  display: none;
+  background-color: {{ color_background | color_modify: 'alpha', 1 }};
+  opacity: 0;
+}
+.content-overlay.animating, .content-overlay.visible {
+  display: block;
+}
+.content-overlay.visible {
+  opacity: 1;
+}
+
+.contained {
+  transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 0.4s padding cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  max-width: calc(1200px + 10%);
+  padding-right: 5%;
+  padding-left: 5%;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media screen and (max-width: 719px) {
+  .contained {
+    padding-right: 1.3333333333rem;
+    padding-left: 1.3333333333rem;
+  }
+}
+
+.template-search .content-wrapper,
+.template-search .main-content,
+.template-customers-login .content-wrapper,
+.template-customers-login .main-content {
+  height: 100%;
+}
+.template-search .main-content,
+.template-customers-login .main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+[data-rimg=lazy],
+[data-rimg=loading] {
+  background-color: {{ color_background | color_darken: 10 }};
+  transition: background-color 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.collection-colored-default [data-rimg=lazy],
+.collection-colored-default [data-rimg=loading] {
+  background-color: {{ collection_color_default | color_darken: 10 }};
+}
+.collection-colored-1 [data-rimg=lazy],
+.collection-colored-1 [data-rimg=loading] {
+  background-color: {{ rimg_collection_1_color }};
+}
+.collection-colored-2 [data-rimg=lazy],
+.collection-colored-2 [data-rimg=loading] {
+  background-color: {{ rimg_collection_2_color }};
+}
+.collection-colored-3 [data-rimg=lazy],
+.collection-colored-3 [data-rimg=loading] {
+  background-color: {{ rimg_collection_3_color }};
+}
+.collection-colored-4 [data-rimg=lazy],
+.collection-colored-4 [data-rimg=loading] {
+  background-color: {{ rimg_collection_4_color }};
+}
+.collection-colored-5 [data-rimg=lazy],
+.collection-colored-5 [data-rimg=loading] {
+  background-color: {{ rimg_collection_5_color }};
+}
+.collection-colored-6 [data-rimg=lazy],
+.collection-colored-6 [data-rimg=loading] {
+  background-color: {{ rimg_collection_6_color }};
+}
+.collection-colored-7 [data-rimg=lazy],
+.collection-colored-7 [data-rimg=loading] {
+  background-color: {{ rimg_collection_7_color }};
+}
+.collection-colored-8 [data-rimg=lazy],
+.collection-colored-8 [data-rimg=loading] {
+  background-color: {{ rimg_collection_8_color }};
+}
+.collection-colored-9 [data-rimg=lazy],
+.collection-colored-9 [data-rimg=loading] {
+  background-color: {{ rimg_collection_9_color }};
+}
+.collection-colored-10 [data-rimg=lazy],
+.collection-colored-10 [data-rimg=loading] {
+  background-color: {{ rimg_collection_10_color }};
+}
+.collection-colored-11 [data-rimg=lazy],
+.collection-colored-11 [data-rimg=loading] {
+  background-color: {{ rimg_collection_11_color }};
+}
+.collection-colored-12 [data-rimg=lazy],
+.collection-colored-12 [data-rimg=loading] {
+  background-color: {{ rimg_collection_12_color }};
+}
+
+[data-rimg=loaded] {
+  background-color: transparent;
+}
+
+[data-rimg-noscript] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.no-js [data-rimg-noscript] + img {
+  opacity: 0;
+}
+.js [data-rimg-noscript] {
+  display: none;
+}
+.home-slideshow [data-rimg-noscript], .product-list-item-thumbnail [data-rimg-noscript], .home-video-overlay [data-rimg-noscript], .home-image-overlay [data-rimg-noscript], .home-image-text-section [data-rimg-noscript], .home-section-height-fullscreen [data-rimg-noscript] {
+  height: 100%;
+  overflow: hidden;
+}
+
+.pagination {
+  padding-bottom: 28px;
+  padding-left: 0;
+  margin-top: 28px;
+  margin-bottom: 0;
+  clear: both;
+  text-align: center;
+}
+@media screen and (min-width: 1060px) {
+  .sidebar-always-visible .pagination {
+    padding-bottom: 40px;
+    margin-top: 40px;
+  }
+}
+@media screen and (min-width: 720px) {
+  .sidebar-always-hidden .pagination {
+    padding-bottom: 40px;
+    margin-top: 40px;
+  }
+}
+
+.pagination-link {
+  display: inline;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+.pagination-link.pagination-active,
+.pagination-link a {
+  text-transform: uppercase;
+}
+.pagination-link.pagination-active:hover,
+.pagination-link a:hover {
+  color: {{ accent_color }};
+}
+.pagination-link.pagination-active::after,
+.pagination-link a::after {
+  bottom: 0.0666666667rem;
+  letter-spacing: 0.06rem;
+}
+.pagination-link a:focus, .pagination-link.pagination-active {
+  color: {{ accent_color }};
+}
+.pagination-link a:focus::after, .pagination-link.pagination-active::after {
+  opacity: 1;
+}
+
+.page-title {
+  padding-top: 5.0666666667rem;
+  margin-top: 0;
+  margin-bottom: 5.0666666667rem;
+  font-size: 2.8rem;
+  line-height: 1.3;
+  text-align: center;
+}
+@media screen and (max-width: 719px) {
+  .page-title {
+    padding-top: 2.6666666667rem;
+    margin-bottom: 2.6666666667rem;
+    font-size: 2.1333333333rem;
+  }
+}
+
+.page-subtitle {
+  text-align: center;
+  margin-top: -5.0666666667rem;
+  margin-bottom: 5.0666666667rem;
+}
+@media screen and (max-width: 719px) {
+  .page-subtitle {
+    margin-top: -2.6666666667rem;
+    margin-bottom: 2.6666666667rem;
+  }
+}
+
+.pagination-link,
+[data-money] {
+  -webkit-font-feature-settings: "lnum" 1;
+  -moz-font-feature-settings: "lnum" 1;
+  -o-font-feature-settings: "lnum" 1;
+}
+
+.empty {
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+iframe {
+  border: 0;
+}
+
+.rte {
+  font-size: 0.9333333333rem;
+  line-height: 1.6;
+}
+.rte > *:first-child {
+  margin-top: 0;
+}
+.rte > *:last-child {
+  margin-bottom: 0;
+}
+.rte a {
+  text-decoration: none;
+}
+.rte ul,
+.rte ol,
+.rte p,
+.rte img:not([style]) {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.rte img {
+  max-width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.rte img[style*=left] {
+  margin-top: 8px;
+  margin-right: 20px;
+  margin-bottom: 8px;
+}
+.rte img[style*=right] {
+  margin-top: 8px;
+  margin-left: 20px;
+  margin-bottom: 8px;
+}
+.rte table,
+.rte pre {
+  margin-top: 2.8rem;
+  margin-bottom: 2.8rem;
+}
+.rte table {
+  width: 100%;
+}
+.rte th,
+.rte td {
+  padding: 10px;
+}
+.rte pre,
+.rte code {
+  background-color: {{ alternate_background_color_contrast | color_modify: 'alpha', 0.5 }};
+}
+.rte pre {
+  padding: 20px;
+}
+.rte ol {
+  padding-left: 2.6666666667rem;
+  list-style: outside decimal;
+}
+.rte ul {
+  list-style: outside disc;
+}
+.rte ol li,
+.rte ul li {
+  padding-left: 10px;
+  margin-top: 0.5rem;
+}
+.rte blockquote {
+  font-family: {{ fonts_font_headings_family }};
+  font-style: {{ fonts_font_headings_style }};
+  font-weight: {{ fonts_font_headings_weight }};
+  padding-left: 2rem;
+  margin-top: 2.8rem;
+  margin-bottom: 2.8rem;
+  margin-left: 0;
+  font-size: 20px;
+  border-left: 1px solid {{ alternate_background_color_contrast | color_modify: 'alpha', 0.5 }};
+}
+
+.button {
+  transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: inline-block;
+  padding: 10px 24px;
+  font-size: 0.8666666667rem;
+  letter-spacing: 0.8px;
+  color: {{ settings.button_color }};
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: {{ button_color_background }};
+  border-radius: 1px;
+}
+.button:hover {
+  background-color: {{ button_background_color_hover }};
+}
+.button.button-alternate {
+  color: {{ settings.button_color }};
+  background-color: {{ button_color_background | color_desaturate: 100 }};
+}
+.button.button-alternate:hover {
+  color: {{ alternate_button_hover }};
+  background-color: {{ alternate_button_background_hover }};
+}
+
+.button-like-link {
+  padding: 0;
+}
+
+.icon-arrow-right {
+  display: inline-block;
+  max-width: 19px;
+  max-height: 12px;
+  vertical-align: middle;
+  fill: currentColor;
+}
+
+.placeholder-svg {
+  fill: {{ body_color | color_modify: 'alpha', 0.32 }};
+}
+
+.gift-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-top: 80px;
+  text-align: center;
+  background-color: {{ color_background }};
+}
+
+.gift-card-body,
+.gift-card-header,
+.gift-card-footer {
+  flex-shrink: 1;
+  width: 100%;
+  max-width: 510px;
+  padding-right: 20px;
+  padding-left: 20px;
+  margin: 0 auto;
+}
+
+.gift-card-header,
+.gift-card-footer {
+  flex-grow: 1;
+  padding-top: 28px;
+  padding-bottom: 28px;
+}
+
+.gift-card-header .logo {
+  margin: 0 auto;
+}
+.gift-card-header a {
+  text-decoration: none;
+}
+
+.gift-card-body {
+  flex-grow: 99;
+}
+
+.gift-card-contents {
+  padding: 20px;
+  color: {{ sidebar_color }};
+  background: {{ sidebar_background_color }};
+}
+@media screen and (min-width: 720px) {
+  .gift-card-contents {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+}
+
+.gift-card-title {
+  margin-top: 0;
+}
+
+.gift-card-tag {
+  display: block;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+.gift-card-wrap {
+  position: relative;
+}
+
+.gift-card-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.gift-card-amount {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 50;
+  padding: 15px;
+  color: {{ color_white }};
+  text-align: right;
+  text-shadow: 0 0 2px {{ color_black | color_modify: 'alpha', 0.6 }};
+  font-feature-settings: "lnum" 1;
+}
+
+.gift-card-balance-initial {
+  display: block;
+  font-size: 1.3333333333rem;
+  line-height: 1.1;
+}
+@media screen and (min-width: 720px) {
+  .gift-card-balance-initial {
+    font-size: 1.8666666667rem;
+  }
+}
+
+.gift-card-balance-remainder {
+  display: block;
+  text-transform: uppercase;
+}
+
+.gift-card-code-wrapper {
+  position: absolute;
+  right: 0;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+}
+@media screen and (min-width: 720px) {
+  .gift-card-code-wrapper {
+    bottom: 40px;
+  }
+}
+
+.gift-card-code {
+  display: inline-block;
+  padding: 20px 40px;
+  margin: 0 auto;
+  background: {{ sidebar_background_color }};
+  border: 1px solid {{ color_border }};
+  border-radius: 5px;
+  font-feature-settings: "lnum" 1;
+}
+
+.gift-card-qr-code {
+  margin-bottom: 20px;
+}
+.gift-card-qr-code img {
+  padding: 20px;
+  margin: 0 auto;
+  border: 1px solid {{ color_border }};
+  border-radius: 5px;
+}
+@media screen and (min-width: 720px) {
+  .gift-card-qr-code {
+    margin-bottom: 40px;
+  }
+}
+
+.gift-card-actions {
+  font-size: 0.9rem;
+  letter-spacing: 0.0133333333rem;
+}
+.gift-card-actions .button {
+  margin-bottom: 20px;
+}
+
+@media screen and (min-width: 720px) {
+  .gift-card-button-print {
+    margin-left: 20px;
+  }
+}
+
+.gift-card-apple-wallet {
+  display: inline-block;
+  margin: 0 auto;
+}
+.gift-card-apple-wallet img {
+  display: block;
+  width: 120px;
+  height: 40px;
+}

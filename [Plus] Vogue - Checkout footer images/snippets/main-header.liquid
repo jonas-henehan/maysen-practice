@@ -1,0 +1,67 @@
+{% comment %}
+  @param logo {Image}
+         Image object to use as logo
+
+  @param logo_width {Integer}
+         Width to be used for the logo
+
+  @param mobile_logo {Image}
+         Image object to use as logo on mobile
+
+  @param mobile_logo_width {Integer}
+         Width to be used for the logo on mobile
+
+  @param show_announcement {Boolean}
+         Include announcement bar
+
+  @param hide_nav {Boolean}
+         If true, hide the `Menu` and `Cart` links
+{% endcomment %}
+
+<div class="main-header" data-main-header>
+  {% unless hide_nav %}
+    <div class="main-header-item main-header-menu-item">
+      <a
+        class="main-header-link"
+        href="#"
+        title="{{ 'layout.navigation.menu' | t }}"
+        data-overnav-open
+        aria-controls="overnav"
+        aria-expanded="false"
+      >
+        {%- include 'icon-menu' -%}
+      </a>
+    </div>
+  {% endunless %}
+
+  <div class="main-header-logo main-logo-desktop">
+    {%
+      include 'header-logo',
+      logo: logo,
+      logo_width: logo_width
+    %}
+  </div>
+
+  <div class="main-header-logo main-logo-mobile">
+    {%
+      include 'header-logo',
+      logo: mobile_logo,
+      logo_width: mobile_logo_width
+    %}
+  </div>
+
+  {% unless hide_nav %}
+    <div class="main-header-item main-header-cart-item">
+      <a
+        class="main-header-link {% if cart.item_count > 0 %}cart-has-contents{% endif %}"
+        href="{{ routes.cart_url }}"
+        title="{{ 'layout.navigation.cart' | t }}">
+        {%- include 'icon-cart' -%}
+      </a>
+    </div>
+  {% endunless %}
+</div>
+
+{% if show_announcement %}
+  {% include 'announcement-bar' %}
+{% endif %}

@@ -1,0 +1,139 @@
+<!doctype html>
+<html class="no-js no-touch" lang="{{ request.locale.iso_code }}">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- Preconnect Domains -->
+  <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.shopify.com" crossorigin>
+  <link rel="preconnect" href="https://monorail-edge.shopifysvc.com">
+
+  <!-- Preload Assets -->
+  <link rel="preload" href="{{ 'theme.css' | asset_url }}" as="style">
+  <link rel="preload" href="{{ 'vogue.js' | asset_url }}" as="script">
+
+  {% if template contains 'customers' %}
+    <link rel="preload" href="{{ 'shopify_common.js' | shopify_asset_url }}" as="script">
+    <link rel="preload" href="{{ 'customer_area.js' | shopify_asset_url }}" as="script">
+  {% endif %}
+
+  {% if template contains 'gift_card' %}
+    <link rel="preload" href="{{ 'vendor/qrcode.js' | shopify_asset_url }}" as="script">
+    <link rel="preload" href="{{ 'giftcard.js' | shopify_asset_url }}" as="script">
+  {% endif %}
+
+  <title>
+    {%- if page_title -%}
+      {{- page_title -}}
+
+      {%- if current_tags -%}
+        {%- assign meta_tags = current_tags | join: ', ' %}
+        {{ 'general.title.tags' | t: tags: meta_tags -}}
+      {%- endif -%}
+
+      {%- if current_page != 1 -%}
+        {{- 'general.title.page' | t: page: current_page -}}
+      {%- endif -%}
+
+      {%- unless page_title contains shop.name -%}
+        {{- 'general.title.shop' | t: shop: shop.name -}}
+      {%- endunless -%}
+    {%- else -%}
+      {{- shop.name -}}
+    {%- endif -%}
+  </title>
+
+  {% include 'structured-data' %}
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}" />
+  {% endif %}
+  {% include 'favicon' %}
+
+  {% if template contains 'collection' and current_tags %}
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href="{{ shop.url }}{{ collection.url }}" />
+  {% else %}
+    <link rel="canonical" href="{{ canonical_url }}" />
+  {% endif %}
+
+  <script>(function(H){H.className=H.className.replace(/\bno-js\b/,'js')})(document.documentElement)</script>
+
+  {{ content_for_header }}
+
+  {% assign twitter_handle = settings.social_twitter_url | split: 'twitter.com/' | last %}
+  {%
+    include 'social-meta-tags',
+    twitter_handle: twitter_handle
+  %}
+
+  <!-- Theme CSS -->
+  <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}">
+
+  <!-- Theme object -->
+  {% comment %}Inject theme-object begin{% endcomment %}
+  <script>
+    window.Theme = {};
+    window.Theme.version = "4.8.1";
+  
+    window.Theme.moneyFormat = {{ shop.money_format | strip_html | json }};
+  
+    window.Theme.shippingCalcErrorMessage = "{{ 'cart.shipping_calculator.error' | t | strip_newlines | replace: '"','\\"' }}";
+    window.Theme.shippingCalcMultiRates = "{{ 'cart.shipping_calculator.rates_html' | t | strip_newlines | replace: '"','\\"' }}";
+    window.Theme.shippingCalcOneRate = "{{ 'cart.shipping_calculator.rate' | t | strip_newlines | replace: '"','\\"' }}";
+    window.Theme.shippingCalcNoRates = "{{ 'cart.shipping_calculator.no_rates' | t | strip_newlines | replace: '"','\\"' }}";
+    window.Theme.shippingCalcRateValues = "{{ 'cart.shipping_calculator.rate_values_html' | t | strip_newlines | replace: '"','\\"' }}";
+    window.Theme.addToCartText = "{{ 'products.product.add_to_cart' | t | escape }}";
+    window.Theme.soldOutText = "{{ 'products.product.sold_out' | t | escape }}";
+    window.Theme.unavailableText = "{{'products.product.unavailable' | t | escape }}";
+    window.Theme.processingText = "{{ 'products.product.processing' | t | escape }}";
+    window.Theme.gridSpacing = "{{ settings.grid_spacing }}";
+  
+    window.Theme.customerLoggedIn = {% if shop.customer_accounts_enabled and customer %}true{% else %}false{% endif %};
+  
+    window.Theme.routes = {
+      "root_url": "{{ routes.root_url }}",
+      "account_url": "{{ routes.account_url }}",
+      "account_login_url": "{{ routes.account_login_url }}",
+      "account_logout_url": "{{ routes.account_logout_url }}",
+      "account_register_url": "{{ routes.account_register_url }}",
+      "account_addresses_url": "{{ routes.account_addresses_url }}",
+      "collections_url": "{{ routes.collections_url }}",
+      "all_products_collection_url": "{{ routes.all_products_collection_url }}",
+      "cart_url": "{{ routes.cart_url }}",
+      "cart_add_url": "{{ routes.cart_add_url }}",
+      "cart_change_url": "{{ routes.cart_change_url }}",
+      "cart_clear_url": "{{ routes.cart_clear_url }}",
+      "product_recommendations_url": "{{ routes.product_recommendations_url }}",
+    };
+  </script>
+  {% comment %}Inject theme-object end{% endcomment %}
+
+</head>
+
+<body class="{% include 'body-classes' %}">
+  {% section 'header' %}
+
+  <div class="content-wrapper">
+    <div class="main-content">
+      {{ content_for_layout }}
+
+      {% section 'footer' %}
+    </div>
+
+    <div class="content-overlay"></div>
+  </div>
+
+  {%-
+    render 'modal-surface-pick-up',
+    modal_id: 'surface-pick-up',
+    modal_class: 'surface-pick-up-modal'
+  -%}
+
+  {% include 'footer-scripts' %}
+</body>
+</html>

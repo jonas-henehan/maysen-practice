@@ -1,0 +1,189 @@
+<div class="page-content account-page">
+  <h1 class="page-title">{{ 'customers.order.header' | t: order_number: order.name }}</h1>
+  <p class="page-subtitle"><a href="{{ routes.account_register_url }}">{{ 'customers.account.header' | t }}</a></p>
+
+  <div class="order-history">
+
+    <table class="order">
+      <thead>
+        <tr>
+          <th class="first">{{ 'general.general.product' | t }}</th>
+          <th class="price">{{ 'general.general.price' | t }}</th>
+          <th class="quantity">{{ 'general.general.quantity' | t }}</th>
+          <th class="total last">{{ 'general.general.total' | t }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for line_item in order.line_items %}
+          {%- assign item_has_discounts = false -%}
+          {%- if line_item.line_level_discount_allocations.size > 0 -%}
+            {%- assign item_has_discounts = true -%}
+          {%- endif -%}
+          <tr class="{% include 'for-looper' %} {% if order.cancelled %}cancelled_order{% endif %}">
+            <td class="product-item first">
+              <span class="order-mobile-label">{{ 'general.general.product' | t }}</span>
+              <div class="product-wrap">
+                <a class="order-image" href="{{ line_item.product.url }}">
+                  {%
+                    include 'rimg',
+                    img: line_item.image,
+                    size: '100x100',
+                    alt: line_item.title,
+                    lazy: false
+                  %}
+                </a>
+                <div class="wrap">
+                  <span class="order-vendor">{{ line_item.vendor }}</span>
+                  <span class="order-title">{{ line_item.title | link_to: line_item.product.url }}</span>
+
+                  {%- if item_has_discounts -%}
+                    <ul class="order-item-discounts">
+                      {% for discount_allocation in line_item.line_level_discount_allocations %}
+                        <li class="order-item-discount">
+                          {% include 'icon-sale-tag' %}
+                          {{ discount_allocation.discount_application.title }}
+                          (-<span data-money>{{ discount_allocation.amount | money }}</span>)
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {%- endif -%}
+                </div>
+              </div>
+            </td>
+            <td class="price">
+              <span class="order-mobile-label">{{ 'general.general.price' | t }}</span>
+              <div>
+                {%- if item_has_discounts -%}
+                  <s class="order-item-original-price order-item-price" data-money data-product-price>{{ line_item.original_price | money }}</s>
+                {%- endif -%}
+                <span class="order-item-final-price order-item-price" data-money data-product-price>{{ line_item.final_price | money }}</span>
+                {% 
+                  render 'unit-price', 
+                  item: line_item.variant, 
+                  class: 'order-details__unit-price' 
+                %}
+              </div>
+            </td>
+            <td class="quantity">
+              <span class="order-mobile-label">{{ 'general.general.quantity' | t }}</span>
+              <span>{{ line_item.quantity }}</span>
+            </td>
+            <td class="total last">
+              <span class="order-mobile-label">{{ 'general.general.total' | t }}</span>
+              <div>
+                {%- if item_has_discounts -%}
+                  <s
+                    class="order-item-original-price order-item-price"
+                    data-money
+                    data-item-price>
+                    {{ line_item.original_line_price | money }}
+                  </s>
+                {%- endif -%}
+                <span
+                  class="order-item-final-price order-item-price"
+                  data-money
+                  data-item-price>
+                  {{ line_item.final_line_price | money }}
+                </span>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="order-totals">
+      <ul class="order-sub-total">
+        <li class="order-subtotal">
+          <span class="subtotal-label">{{ 'general.general.subtotal' | t }}</span>
+          <span class="money subtotal-value" data-money>{{ order.line_items_subtotal_price | money }}</span>
+        </li>
+        {%- for discount_application in order.cart_level_discount_applications -%}
+          <li class="order-subtotal order-discount">
+            <div class="subtotal-label order-discount-title">
+              {% include 'icon-sale-tag' %}
+              {{- discount_application.title -}}
+            </div>
+            <div class="subtotal-value order-discount-price">-<span data-money>{{ discount_application.total_allocated_amount | money }}</span></div>
+          </li>
+        {%- endfor -%}
+        {% for shipping_method in order.shipping_methods %}
+          <li class="order-shipping">
+            <span class="subtotal-label">{{ 'customers.order.shipping' | t }} ({{ shipping_method.title }})</span>
+            <span class="money subtotal-value" data-money>{{ shipping_method.price | money }}</span>
+          </li>
+        {% endfor %}
+        {% for tax_line in order.tax_lines %}
+          <li class="order-tax {% include 'for-looper' %}">
+            <span class="subtotal-label">{{ 'customers.order.tax' | t }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)</span>
+            <span class="money subtotal-value" data-money>{{ tax_line.price | money }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <ul class="order-total">
+        <li>
+          <span class="subtotal-label">{{ 'general.general.total' | t }}</span>
+          <span class="money subtotal-value" data-money>{{ order.total_price | money }}</span>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="shipping-info">
+
+    <div class="customer-address shipping-address">
+      <h2>{{ 'customers.order.shipping_address' | t }}</h2>
+      <p>
+        <span>{{ order.shipping_address.first_name }} {{ order.shipping_address.last_name }}</span><br>
+        {% if order.shipping_address.company != blank %}
+          <span>{{ order.shipping_address.company }}</span><br>
+        {% endif %}
+        {% if order.shipping_address.street != blank %}
+          <span>{{ order.shipping_address.street }}</span><br>
+        {% endif %}
+        {% if order.shipping_address.city != blank or order.shipping_address.province_code != blank %}
+          <span>{{ order.shipping_address.city }}
+            {% if order.shipping_address.province_code %}
+              , {{ order.shipping_address.province_code }}
+            {% endif %}</span><br>
+        {% endif %}
+        {% if order.shipping_address.country != blank or order.shipping_address.zip != blank %}
+          <span>{{ order.shipping_address.country }} {{ order.shipping_address.zip }}</span><br>
+        {% endif %}
+        {% if order.shipping_address.phone != blank %}
+          <span>{{ order.shipping_address.phone }}</span><br>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="customer-address shipping-address">
+      <h2>{{ 'customers.order.billing_address' | t }}</h2>
+      <p>
+        <span>{{ order.billing_address.first_name }} {{ order.billing_address.last_name }}</span><br>
+        {% if order.billing_address.company != blank %}
+          <span>{{ order.billing_address.company }}</span><br>
+        {% endif %}
+        {% if order.billing_address.street != blank %}
+          <span>{{ order.billing_address.street }}</span><br>
+        {% endif %}
+        {% if order.billing_address.city != blank or order.billing_address.province_code != blank %}
+          <span>{{ order.billing_address.city }}
+            {% if order.billing_address.province_code %}
+              , {{ order.billing_address.province_code }}
+            {% endif %}
+          </span><br>
+        {% endif %}
+        {% if order.billing_address.country != blank or order.billing_address.zip != blank %}
+          <span>{{ order.billing_address.country }} {{ order.billing_address.zip }}</span><br>
+        {% endif %}
+        {% if order.billing_address.phone != blank %}
+          <span>{{ order.billing_address.phone }}</span><br>
+        {% endif %}
+      </p>
+    </div>
+
+  </div>
+</div>

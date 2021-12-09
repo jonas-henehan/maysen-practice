@@ -1,0 +1,22 @@
+{% comment %}
+  @param logo Image
+  @param logo_width Number
+{% endcomment %}
+
+<a href="{{ routes.root_url }}">
+  {% if logo %}
+    {%
+      include 'rimg',
+      class: 'logo'
+      alt: shop.name
+      img: logo,
+      size: logo_width,
+      placeholder: '90x',
+      lazy: false
+    %}
+  {% else %}
+    <span class="logo-text">
+      {{ shop.name }}
+    </span>
+  {% endif %}
+</a>

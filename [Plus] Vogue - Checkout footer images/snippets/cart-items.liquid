@@ -1,0 +1,148 @@
+<table class="cart-items" data-cart-table>
+  <tbody>
+    {% for item in cart.items %}
+      {%- assign item_has_discounts = false -%}
+      {%- if item.line_level_discount_allocations.size > 0 -%}
+        {%- assign item_has_discounts = true -%}
+      {%- endif -%}
+      <tr
+        class="cart-item"
+        data-cart-item-key="{{ item.key }}"
+      >
+
+        <td class="cart-item-product">
+
+          <a class="cart-item-image-link" href="{{ item.url }}">
+            {% if item.image %}
+              {%
+                include 'rimg',
+                img: item.image,
+                size: '200x120',
+                class: 'cart-item-image',
+                alt: item.title,
+                lazy: true
+              %}
+            {% else %}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endif %}
+          </a>
+
+          <ul class="cart-item-product-info">
+            <li>
+              <a class="cart-item-title" href="{{ item.url }}" data-title>
+                {{ item.product.title }}
+              </a>
+            </li>
+
+            {% unless item.product.has_only_default_variant %}
+              <li>
+                {{ item.variant.title }}
+              </li>
+            {% endunless %}
+
+
+            <!-- TODO: Check these -->
+            {% if item.properties %}
+              <li class="cart-item-properties">
+                {% for property in item.properties %}
+                  {% unless property.last == blank %}
+                    <div class="cart-item-property">
+                      <span class="cart-item-property-label">{{ property.first }}:</span>
+                      {% if property.last contains '/uploads/' %}
+                        <a class="cart-item-property-image" href="{{ property.last }}">{{ property.last | split: '/' | last }}</a>
+                      {% else %}
+                        <span class="cart-item-property-value">{{ property.last }}</span>
+                      {% endif %}
+                    </div>
+                  {% endunless %}
+                {% endfor %}
+              </li>
+            {% endif %}
+
+            <li>
+              {%- if item_has_discounts -%}
+                <s class="cart-item-original-price cart-item-price" data-money data-product-price>{{ item.original_price | money }}</s>
+              {%- endif -%}
+              <span class="cart-item-final-price cart-item-price" data-money data-product-price>{{ item.final_price | money }}</span>
+              {% 
+                render 'unit-price', 
+                item: item.variant, 
+                class: 'cart-item__unit-price' 
+              %}
+            </li>
+
+            {%- if item_has_discounts -%}
+              <li>
+                <ul class="cart-item-discounts">
+                  {% for discount_allocation in item.line_level_discount_allocations %}
+                    <li class="cart-item-discount">
+                      {% include 'icon-sale-tag' %}
+                      {{ discount_allocation.discount_application.title }}
+                      (-<span data-money>{{ discount_allocation.amount | money }}</span>)
+                    </li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {%- endif -%}
+          </ul>
+        </td>
+
+        <td class="cart-item-quantity">
+          <span class="cart-item-quantity-wrapper">
+            <button
+              class="cart-item-quantity-adjust cart-item-decrement"
+              data-cart-action="decrement"
+              type="button"
+              aria-label="{{ 'cart.general.decrease' | t }}">
+              {%- include 'icon-minus' -%}
+            </button>
+
+            <input
+              class="cart-item-quantity-input input-field"
+              name="updates[{{ item.id }}]"
+              type="text"
+              value="{{ item.quantity }}"
+              size="3"
+              aria-label="{{ 'cart.general.quantity' |  t }}"
+              data-cart-product-quantity
+            >
+
+              <button
+                class="cart-item-quantity-adjust cart-item-increment"
+                data-cart-action="increment"
+                type="button"
+                aria-label="{{ 'cart.general.increase' | t }}">
+                {%- include 'icon-plus' -%}
+              </button>
+            </span>
+            <a
+              class="cart-item-remove"
+              href="/cart/change?line={{ forloop.index }}&amp;quantity=0"
+              title="{{ 'general.general.remove' | t }}"
+              data-cart-action="remove"
+            >
+              {{ 'general.general.remove' | t }}
+            </a>
+        </td>
+
+        <td class="cart-item-total">
+          {%- if item_has_discounts -%}
+            <s
+              class="cart-item-original-price cart-item-price"
+              data-money
+              data-item-price>
+              {{ item.original_line_price | money }}
+            </s>
+          {%- endif -%}
+          <span
+            class="cart-item-final-price cart-item-price"
+            data-money
+            data-item-price>
+            {{ item.final_line_price | money }}
+          </span>
+        </td>
+
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>

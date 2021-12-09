@@ -1,0 +1,12 @@
+{% capture year %}
+  {{ 'now' | date: '%Y' }}
+{% endcapture %}
+
+<p class="footer-copyright">
+  <span>
+    {{ 'layout.footer.copyright_html' | t: year: year, shop_name: shop.name }}
+  </span>
+  <span class="footer-copyright-attribution">
+    <span>{{ powered_by_link }}</span>
+  </span>
+</p>

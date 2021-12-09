@@ -1,0 +1,245 @@
+{
+  "current": {
+    "body_text_color": "#606060",
+    "accent_color": "#b55f3b",
+    "background_color": "#efe7e4",
+    "button_color": "#ffffff",
+    "button_background_color": "#b55f3b",
+    "sidebar_background_color": "#ffffff",
+    "listing_text_color": "#ffffff",
+    "listing_text_background_color": "#beb2b2",
+    "listing_text_background_alpha": 90,
+    "collection_color_default": "#eed4cb",
+    "collection_1_color": "#f6c3b2",
+    "collection_2_color": "#eccec4",
+    "collection_3_color": "#f2dad0",
+    "collection_4_color": "#faeae4",
+    "collection_5_color": "#f6c3b2",
+    "collection_6_color": "#eccec4",
+    "collection_7_color": "#f2dad0",
+    "collection_8_color": "#faeae4",
+    "collection_9_color": "#f6c3b2",
+    "collection_10_color": "#eccec4",
+    "collection_11_color": "#f2dad0",
+    "collection_12_color": "#faeae4",
+    "font_headings": "playfair_display_n4",
+    "font_body": "varela_n4",
+    "font_testimonials_and_tweets": "playfair_display_n4",
+    "grid_spacing": "10px",
+    "sections": {
+      "section-1": {
+        "type": "home-featured-product",
+        "settings": {}
+      },
+      "section-2": {
+        "type": "home-featured-collection",
+        "settings": {}
+      },
+      "header": {
+        "type": "header",
+        "settings": {
+          "navigation_style": "sidebar_stays"
+        }
+      },
+      "page-blog": {
+        "type": "page-blog",
+        "settings": {
+          "pagination": 4
+        }
+      },
+      "page-collection": {
+        "type": "page-collection",
+        "settings": {
+          "pagination": 12
+        }
+      },
+      "page-product": {
+        "type": "page-product",
+        "settings": {}
+      }
+    },
+    "content_for_index": [
+      "section-1",
+      "section-2"
+    ]
+  },
+  "presets": {
+    "Elegant": {
+      "accent_color": "#b55f3b",
+      "background_color": "#efe7e4",
+      "body_text_color": "#606060",
+      "button_background_color": "#b55f3b",
+      "button_color": "#ffffff",
+      "collection_1_color": "#f6c3b2",
+      "collection_2_color": "#eccec4",
+      "collection_3_color": "#f2dad0",
+      "collection_4_color": "#faeae4",
+      "collection_5_color": "#f6c3b2",
+      "collection_6_color": "#eccec4",
+      "collection_7_color": "#f2dad0",
+      "collection_8_color": "#faeae4",
+      "collection_9_color": "#f6c3b2",
+      "collection_10_color": "#eccec4",
+      "collection_11_color": "#f2dad0",
+      "collection_12_color": "#faeae4",
+      "collection_color_default": "#eed4cb",
+      "font_body": "varela_n4",
+      "font_headings": "playfair_display_n4",
+      "font_testimonials_and_tweets": "playfair_display_n4",
+      "grid_spacing": "10px",
+      "listing_text_background_color": "#beb2b2",
+      "listing_text_background_alpha": 90,
+      "listing_text_color": "#ffffff",
+      "sidebar_background_color": "#ffffff",
+      "sections": {
+        "section-1": {
+          "type": "home-featured-product",
+          "settings": {}
+        },
+        "section-2": {
+          "type": "home-featured-collection",
+          "settings": {}
+        },
+        "header": {
+          "type": "header",
+          "settings": {
+            "navigation_style": "sidebar_stays"
+          }
+        },
+        "page-blog": {
+          "type": "page-blog",
+          "settings": {
+            "pagination": 4
+          }
+        },
+        "page-collection": {
+          "type": "page-collection",
+          "settings": {
+            "pagination": 12
+          }
+        },
+        "page-product": {
+          "type": "page-product",
+          "settings": {}
+        }
+      },
+      "content_for_index": [
+        "section-1",
+        "section-2"
+      ]
+    },
+    "Editorial": {
+      "accent_color": "#000000",
+      "background_color": "#ffffff",
+      "body_text_color": "#000000",
+      "button_background_color": "#000000",
+      "button_color": "#ffffff",
+      "collection_1_color": "#f6f6f6",
+      "collection_2_color": "#f6f6f6",
+      "collection_3_color": "#f6f6f6",
+      "collection_4_color": "#f6f6f6",
+      "collection_5_color": "#f6f6f6",
+      "collection_6_color": "#f6f6f6",
+      "collection_7_color": "#f6f6f6",
+      "collection_8_color": "#f6f6f6",
+      "collection_9_color": "#f6f6f6",
+      "collection_10_color": "#f6f6f6",
+      "collection_11_color": "#f6f6f6",
+      "collection_12_color": "#f6f6f6",
+      "collection_color_default": "#f6f6f6",
+      "font_body": "neuzeit_office_n4",
+      "font_headings": "open_sans_n4",
+      "font_testimonials_and_tweets": "open_sans_n4",
+      "grid_spacing": "2px",
+      "listing_text_background_color": "#ffffff",
+      "listing_text_background_alpha": 90,
+      "listing_text_color": "#444444",
+      "sidebar_background_color": "#ffffff",
+      "content_for_index": [
+        "section-1"
+      ],
+      "sections": {
+        "section-1": {
+          "type": "home-featured-product",
+          "settings": {
+            "section_height": "fullscreen"
+          }
+        },
+        "page-blog": {
+          "type": "page-blog",
+          "settings": {
+            "pagination": 4
+          }
+        },
+        "page-collection": {
+          "type": "page-collection",
+          "settings": {
+            "enable_tag_filtering": false,
+            "pagination": 12
+          }
+        }
+      }
+    },
+    "Organic": {
+      "accent_color": "#6865d8",
+      "background_color": "#f9f9f9",
+      "body_text_color": "#383838",
+      "button_background_color": "#6865d8",
+      "button_color": "#ffffff",
+      "collection_1_color": "#d8d4e9",
+      "collection_2_color": "#bcc9e4",
+      "collection_3_color": "#e6eeb4",
+      "collection_4_color": "#f3f0e9",
+      "collection_5_color": "#f3f0e7",
+      "collection_6_color": "#87b2a2",
+      "collection_7_color": "#87b2a2",
+      "collection_8_color": "#87b2a2",
+      "collection_9_color": "#87b2a2",
+      "collection_10_color": "#87b2a2",
+      "collection_11_color": "#87b2a2",
+      "collection_12_color": "#87b2a2",
+      "collection_color_default": "#d0cfd6",
+      "font_body": "varela_n4",
+      "font_headings": "dosis_n4",
+      "font_testimonials_and_tweets": "dosis_n4",
+      "listing_text_background_color": "#646f6f",
+      "listing_text_background_alpha": 60,
+      "listing_text_color": "#ffffff",
+      "sidebar_background_color": "#ffffff",
+      "sections": {
+        "section-1": {
+          "type": "home-featured-product",
+          "settings": {
+            "section_height": "fullscreen"
+          }
+        },
+        "section-2": {
+          "type": "home-featured-collection",
+          "settings": {}
+        },
+        "header": {
+          "type": "header",
+          "settings": {
+            "navigation_style": "sidebar_stays"
+          }
+        },
+        "page-blog": {
+          "type": "page-blog",
+          "settings": {
+            "pagination": 6
+          }
+        },
+        "page-collection": {
+          "type": "page-collection",
+          "settings": {
+            "enable_tag_filtering": false
+          }
+        }
+      },
+      "content_for_index": [
+        "section-1",
+        "section-2"
+      ]
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{% comment %}
+  @param product {Product}
+    The product object in question
+{% endcomment %}
+{% assign models = product.media | where: 'media_type', 'model' %}
+{% assign first_model = models | first %}
+
+<div
+  class="product-gallery"
+  data-product-gallery
+  data-product-models={{ models | json }}
+>
+  {% for media in product.media %}
+    <figure
+      class="product-gallery--figure"
+      tabindex="-1"
+      data-product-gallery-figure="{{ forloop.index0 }}"
+      data-product-gallery-selected="{%- if selected_media.id == media.id -%}true{%- else -%}false{%- endif -%}"
+      data-media="{{ media.id }}"
+      data-media-type="{{ media.media_type }}"
+    >
+      <div class="product-gallery--media-wrapper">
+        {% case media.media_type %}
+        {% when 'image' %}
+          {%
+            include 'rimg'
+            img: media.preview_image,
+            size: '2048x2048',
+            lazy: true,
+          %}
+          {% if enable_image_zoom %}<div class="product-gallery--image-zoom-container"></div>{% endif %}
+        {% when 'model' %}
+          {{ media | model_viewer_tag: image_size: '1024x', reveal: 'interaction' , toggleable: true, interaction-prompt-threshold: 0 }}
+        {% when 'video' %}
+          {{ media | media_tag: image_size: '1024x' }}
+        {% when 'external_video' %}
+          {{ media | media_tag: image_size: '1024x' }}
+        {% else %}
+          {{ media | media_tag }}
+        {% endcase %}
+      </div>
+    {% if media.media_type == 'model' %}
+      {% assign model = media %}
+    {% else %}
+      {% assign model = first_model %}
+    {% endif %}
+    {% if model %}
+      <button
+        class="product-gallery--viewinyourspace"
+        data-shopify-xr
+        data-shopify-model3d-id="{{ model.id }}"
+        data-shopify-title="{{ product.title }}"
+        data-shopify-xr-hidden
+      >
+        {% include 'icon-library', id: 'icon-ar' %}
+        {{ 'products.media.view_in_your_space' | t }}
+      </button>
+    {% endif %}
+    </figure>
+  {% else %}
+    {% comment %} Onboarding Image {% endcomment %}
+    <figure
+        class="product-gallery--viewport--figure"
+        data-product-gallery-selected="true"
+      >
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    </figure>
+  {% endfor %}
+</div>

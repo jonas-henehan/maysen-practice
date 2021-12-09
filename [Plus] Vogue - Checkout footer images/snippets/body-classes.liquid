@@ -1,0 +1,21 @@
+{% capture body_classes %}
+template-{{ template | replace: '.', ' ' | replace: '_', '-' | truncatewords: 1, '' | handle }}
+
+{% if template contains 'customers' %}
+  template-account-page
+{% endif %}
+
+{% if customer %}
+  customer-logged-in
+{% endif %}
+
+{% if template.name contains 'product' %}
+  product-sidebar-visible
+{% endif %}
+
+{% if template.name contains 'cart' %}
+  template-cart-page
+{% endif %}
+
+{% endcapture %}
+{{ body_classes | strip_newlines }}
