@@ -8,6 +8,82 @@
     "theme_support_url": "https:\/\/support.pixelunion.net\/hc\/en-us\/requests\/new"
   },
   {
+    "name": "[Plus] Custom images to checkout footer",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Image settings for checkout footer"
+      },
+      {
+        "type": "checkbox",
+        "id": "plus_enable_checkout_footer",
+        "label": "Enable custom images on checkout footer",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "payment_icons_alignment",
+        "label": "Choose alignment for payment icons",
+        "options": [
+          {
+            "value": "flex-start",
+            "label": "Left"
+          },
+          {
+            "value": "space-evenly",
+            "label": "Center"
+          },
+          {
+            "value": "flex-end",
+            "label": "Right"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "show_placeholder_img",
+        "label": "Show placeholder images when no image is selected",
+        "info": "There may be unexpected behaviour if this setting is enabled with images selected",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "checkout_image_1",
+        "label": "First image for checkout footer"
+      },
+      {
+        "type": "image_picker",
+        "id": "checkout_image_2",
+        "label": "Second image for checkout footer"
+      },
+      {
+        "type": "image_picker",
+        "id": "checkout_image_3",
+        "label": "Third image for checkout footer"
+      },
+      {
+        "type": "image_picker",
+        "id": "checkout_image_4",
+        "label": "Fourth image for checkout footer"
+      },
+      {
+        "type": "image_picker",
+        "id": "checkout_image_5",
+        "label": "Fith image for checkout footer"
+      },
+      {
+        "type": "image_picker",
+        "id": "checkout_image_6",
+        "label": "Sixth image for checkout footer"
+      },
+      {
+        "type": "image_picker",
+        "id": "checkout_image_7",
+        "label": "Seventh image for checkout footer"
+      }
+    ]
+  },
+  {
     "name": "Color",
     "settings": [
       {

@@ -50,5 +50,21 @@
     </div>
 
     {{ tracking_code }}
+
+    <!-- Assign variables to use in JS -->
+    {% assign placeholder_image = '//cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png?format=jpg&quality=90&v=1530129081' %}
+    <span hidden id="image1">{%- if settings.checkout_image_1 -%} {{ settings.checkout_image_1 | image_url: width: 100, height: 100 }} {%- else -%} {%- if settings.show_placeholder_img -%} {{ placeholder_image }} {%- else -%}Null{%- endif -%}{%- endif -%}</span>
+    <span hidden id="image2">{%- if settings.checkout_image_2 -%} {{ settings.checkout_image_2 | image_url: width: 100, height: 100 }} {%- else -%} {%- if settings.show_placeholder_img -%} {{ placeholder_image }} {%- else -%}Null{%- endif -%}{%- endif -%}</span>
+    <span hidden id="image3">{%- if settings.checkout_image_3 -%} {{ settings.checkout_image_3 | image_url: width: 100, height: 100 }} {%- else -%} {%- if settings.show_placeholder_img -%} {{ placeholder_image }} {%- else -%}Null{%- endif -%}{%- endif -%}</span>
+    <span hidden id="image4">{%- if settings.checkout_image_4 -%} {{ settings.checkout_image_4 | image_url: width: 100, height: 100 }} {%- else -%} {%- if settings.show_placeholder_img -%} {{ placeholder_image }} {%- else -%}Null{%- endif -%}{%- endif -%}</span>
+    <span hidden id="image5">{%- if settings.checkout_image_5 -%} {{ settings.checkout_image_5 | image_url: width: 100, height: 100 }} {%- else -%} {%- if settings.show_placeholder_img -%} {{ placeholder_image }} {%- else -%}Null{%- endif -%}{%- endif -%}</span>
+    <span hidden id="image6">{%- if settings.checkout_image_6 -%} {{ settings.checkout_image_6 | image_url: width: 100, height: 100 }} {%- else -%} {%- if settings.show_placeholder_img -%} {{ placeholder_image }} {%- else -%}Null{%- endif -%}{%- endif -%}</span>
+    <span hidden id="image7">{%- if settings.checkout_image_7 -%} {{ settings.checkout_image_7 | image_url: width: 100, height: 100 }} {%- else -%} {%- if settings.show_placeholder_img -%} {{ placeholder_image }} {%- else -%}Null{%- endif -%}{%- endif -%}</span>
+    <span hidden id="payment_alignment">{{ settings.payment_icons_alignment }}</span>
+
+
+    {% if settings.plus_enable_checkout_footer %}
+      {{ 'plus-checkout-footer-img.js' | asset_url | script_tag }}
+    {% endif %}
   </body>
 </html>
