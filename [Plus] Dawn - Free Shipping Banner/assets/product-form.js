@@ -65,7 +65,8 @@ if (!customElements.get('product-form')) {
           if (total_progress <= 0) {
             document.getElementById("total-cart-price").innerHTML = set_finished_label;
           } else {
-            document.getElementById("total-cart-price").innerHTML = set_in_progress_label.replace('[price]', `$${(total_progress / 100).toFixed(2)}`);
+            // Replace regex matched price with recalculated price
+            document.getElementById("total-cart-price").innerHTML = set_in_progress_label.replace(/\$([\d,]+(?:\.\d+)?)/g, `$${(total_progress / 100).toFixed(2)}`);
           }
           document.getElementById("progressbar-inner").style.width = (data.total_price / set_price) * 100 + "%";
         });

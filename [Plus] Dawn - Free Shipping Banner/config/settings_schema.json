@@ -87,11 +87,12 @@
     ]
   },
   {
-    "name": "[Plus] Free shipping banner",
+    "name": "[Plus]",
     "settings": [
       {
         "type": "header",
-        "content": "Banner settings"
+        "content": "Banner settings",
+        "info": "Go to the [theme language editor](/admin/themes/128208634045/language) to edit the banner text"
       },
       {
         "type": "checkbox",
@@ -104,18 +105,6 @@
         "id": "shipping_goal",
         "label": "Free shipping goal amount",
         "default": 200
-      },
-      {
-        "type": "text",
-        "id": "banner_goal_label",
-        "label": "Label when shipping goal is in progress. Use [price] as a placeholder for price",
-        "default": "You're [price] away from free shipping!"
-      },
-      {
-        "type": "text",
-        "id": "finished_goal_label",
-        "label": "Label when shipping goal is reached",
-        "default": "You're eligible for free shipping!"
       },
       {
         "type": "color",

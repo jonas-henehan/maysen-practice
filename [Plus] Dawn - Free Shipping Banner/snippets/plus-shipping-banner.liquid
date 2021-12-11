@@ -28,9 +28,9 @@
 {% assign total_progress_formatted = total_progress | money %}
 {% assign progress_width = cart_total | divided_by: shipping_goal %}
 
-<!-- Banner theme settings -->
-{% assign finished_label = settings.finished_goal_label %}
-{% assign in_progress_label = settings.banner_goal_label %}
+<!-- Theme languages variables -->
+{% assign finished_label = 'plus.free_shipping_banner.finished_banner' | t %}
+{% assign in_progress_label = 'plus.free_shipping_banner.in_progress_banner' | t: price: total_progress_formatted %}
 
 <!-- Pass variables into HTML element to grab it using JS -->
 <span hidden id="merchantSetFreeShippingGoal">{{ shipping_goal }}</span>
@@ -42,9 +42,9 @@
     <p>
         <span id="total-cart-price">
             {%- if total_progress <= 0 -%}
-                {{ finished_label }}
+                {{ 'plus.free_shipping_banner.finished_banner' | t }}
             {% else %}
-                {{ in_progress_label | replace: '[price]', total_progress_formatted }}
+                {{ in_progress_label }}
             {% endif %}
         </span>
     </p>
