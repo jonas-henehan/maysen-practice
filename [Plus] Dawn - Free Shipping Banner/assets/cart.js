@@ -145,12 +145,16 @@ class CartItems extends HTMLElement {
         let set_finished_label = document.getElementById("merchantSetFinishedLabel").innerHTML;
         let set_in_progress_label = document.getElementById("merchantSetInProgressLabel").innerHTML;
         let total_progress = set_price - data.total_price;
+        let price_regex = /[$(0-9)+.?(0-9)*]+/;
 
         if (total_progress <= 0) {
           document.getElementById("total-cart-price").innerHTML = set_finished_label;
         } else {
           // Replace regex matched price with recalculated price
-          document.getElementById("total-cart-price").innerHTML = set_in_progress_label.replace(/\$([\d,]+(?:\.\d+)?)/g, `$${(total_progress / 100).toFixed(2)}`);
+          let total_price = "$" + (total_progress / 100).toFixed(2);
+          set_in_progress_label = set_in_progress_label.replace(price_regex, total_price);
+
+          document.getElementById("total-cart-price").innerHTML = set_in_progress_label;
         }
         document.getElementById("progressbar-inner").style.width = (data.total_price / set_price) * 100 + "%";
       });
