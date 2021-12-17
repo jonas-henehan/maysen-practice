@@ -141,22 +141,22 @@ class CartItems extends HTMLElement {
     fetch('/cart.js')
       .then(response => response.json())
       .then(data => {
-        let set_price = document.getElementById("merchantSetFreeShippingGoal").innerHTML * 100; //Gets the price set by the merchant in the theme section settings - unformated
-        let set_finished_label = document.getElementById("merchantSetFinishedLabel").innerHTML;
-        let set_in_progress_label = document.getElementById("merchantSetInProgressLabel").innerHTML;
-        let total_progress = set_price - data.total_price;
-        let price_regex = /[$(0-9)+.?(0-9)*]+/;
+        let setPrice = document.getElementById("merchantSetFreeShippingGoal").innerHTML * 100; //Gets the price set by the merchant in the theme section settings - unformated
+        let setFinishedLabel = document.getElementById("merchantSetFinishedLabel").innerHTML;
+        let setInProgressLabel = document.getElementById("merchantSetInProgressLabel").innerHTML;
+        let totalProgress = setPrice - data.total_price;
+        let priceRegex = /[$(0-9)+.?(0-9)*]+/;
 
-        if (total_progress <= 0) {
-          document.getElementById("total-cart-price").innerHTML = set_finished_label;
+        if (totalProgress <= 0) {
+          document.getElementById("total-cart-price").innerHTML = setFinishedLabel;
         } else {
           // Replace regex matched price with recalculated price
-          let total_price = "$" + (total_progress / 100).toFixed(2);
-          set_in_progress_label = set_in_progress_label.replace(price_regex, total_price);
+          let totalPrice = "$" + (totalProgress / 100).toFixed(2);
+          setInProgressLabel = setInProgressLabel.replace(priceRegex, totalPrice);
 
-          document.getElementById("total-cart-price").innerHTML = set_in_progress_label;
+          document.getElementById("total-cart-price").innerHTML = setInProgressLabel;
         }
-        document.getElementById("progressbar-inner").style.width = (data.total_price / set_price) * 100 + "%";
+        document.getElementById("progressbar-inner").style.width = (data.total_price / setPrice) * 100 + "%";
       });
   }
 }
