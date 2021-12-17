@@ -1,0 +1,55 @@
+<!-- Need to assign this before the styling -->
+{% assign banner_background_color = settings.shipping_banner_color %}
+
+<style>
+  #progressbar {
+      border: 1px solid black;
+      height: 20px;
+      width: 100%;
+  }
+  
+  #progressbar div {
+      height: 100%;
+      max-width: 100%;
+      transition: width 0.5s;
+      background-color: {{ banner_background_color }}
+  }
+  
+  .free-shipping-wrapper {
+      margin: 0 auto;
+      text-align: center;
+  }
+</style>
+
+<!-- Assign variables for ease of use and tidiness -->
+{% assign shipping_goal = settings.shipping_goal %}
+{% assign cart_total = cart.total_price %}
+{% assign total_progress = shipping_goal | times: 100 | minus: cart_total %}
+{% assign total_progress_formatted = total_progress | money %}
+{% assign progress_width = cart_total | divided_by: shipping_goal %}
+
+<!-- Theme languages variables -->
+{% assign finished_label = 'plus.free_shipping_banner.finished_banner' | t %}
+{% assign in_progress_label = 'plus.free_shipping_banner.in_progress_banner' | t: price: total_progress_formatted %}
+
+<!-- Pass variables into HTML element to grab it using JS -->
+<span hidden id="merchantSetFreeShippingGoal">{{ shipping_goal }}</span>
+<span hidden id="merchantSetFinishedLabel">{{ finished_label }}</span>
+<span hidden id="merchantSetInProgressLabel">{{ in_progress_label }}</span>
+
+<!-- Banner HTML -->
+<div class="free-shipping-wrapper">
+    <p>
+        <span id="total-cart-price">
+            {%- if total_progress <= 0 -%}
+                {{ 'plus.free_shipping_banner.finished_banner' | t }}
+            {% else %}
+                {{ in_progress_label }}
+            {% endif %}
+        </span>
+    </p>
+
+    <div id="progressbar">
+        <div id="progressbar-inner" style="width: {{ progress_width }}%"> </div>
+    </div>
+</div>

@@ -1,4 +1,10 @@
 {
+  "plus": {
+    "free_shipping_banner": {
+      "in_progress_banner": "You're {{ price }} away from free shipping!",
+      "finished_banner": "You're eligible for free shipping!"
+    }
+  },
   "general": {
     "password_page": {
       "login_form_heading": "Enter store using password:",

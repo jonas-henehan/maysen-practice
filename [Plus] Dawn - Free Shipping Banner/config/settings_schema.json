@@ -87,6 +87,34 @@
     ]
   },
   {
+    "name": "[Plus]",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Banner settings",
+        "info": "Go to the [theme language editor](/admin/themes/128208634045/language) to edit the banner text"
+      },
+      {
+        "type": "checkbox",
+        "id": "plus_show_shipping_banner",
+        "label": "Enable shipping banner",
+        "default": true
+      },
+      {
+        "type": "number",
+        "id": "shipping_goal",
+        "label": "Free shipping goal amount",
+        "default": 200
+      },
+      {
+        "type": "color",
+        "id": "shipping_banner_color",
+        "label": "Colour of free shipping banner",
+        "default": "#0000FF"
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.typography.name",
     "settings": [
       {

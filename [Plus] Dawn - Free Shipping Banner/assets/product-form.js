@@ -40,6 +40,9 @@ if (!customElements.get('product-form')) {
 
           this.cartNotification.renderContents(response);
         })
+        .then(() => {
+          this.updateBannerPrice();
+        })
         .catch((e) => {
           console.error(e);
         })
@@ -47,6 +50,29 @@ if (!customElements.get('product-form')) {
           submitButton.classList.remove('loading');
           submitButton.removeAttribute('aria-disabled');
           this.querySelector('.loading-overlay__spinner').classList.add('hidden');
+        });
+    }
+
+    updateBannerPrice() {
+      fetch('/cart.js')
+        .then(response => response.json())
+        .then(data => {
+          let setPrice = document.getElementById("merchantSetFreeShippingGoal").innerHTML * 100; //Gets the price set by the merchant in the theme section settings - unformated
+          let setFinishedLabel = document.getElementById("merchantSetFinishedLabel").innerHTML;
+          let setInProgressLabel = document.getElementById("merchantSetInProgressLabel").innerHTML;
+          let totalProgress = setPrice - data.total_price;
+          let priceRegex = /[$(0-9)+.?(0-9)*]+/;
+
+          if (totalProgress <= 0) {
+            document.getElementById("total-cart-price").innerHTML = setFinishedLabel;
+          } else {
+            // Replace regex matched price with recalculated price
+            let totalPrice = "$" + (totalProgress / 100).toFixed(2);
+            setInProgressLabel = setInProgressLabel.replace(priceRegex, totalPrice);
+
+            document.getElementById("total-cart-price").innerHTML = setInProgressLabel;
+          }
+          document.getElementById("progressbar-inner").style.width = (data.total_price / setPrice) * 100 + "%";
         });
     }
 

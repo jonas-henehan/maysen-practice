@@ -65,7 +65,7 @@ class CartItems extends HTMLElement {
       sections_url: window.location.pathname
     });
 
-    fetch(`${routes.cart_change_url}`, {...fetchConfig(), ...{ body }})
+    fetch(`${routes.cart_change_url}`, { ...fetchConfig(), ...{ body } })
       .then((response) => {
         return response.text();
       })
@@ -85,10 +85,14 @@ class CartItems extends HTMLElement {
         }));
 
         this.updateLiveRegions(line, parsedState.item_count);
-        const lineItem =  document.getElementById(`CartItem-${line}`);
+        const lineItem = document.getElementById(`CartItem-${line}`);
         if (lineItem && lineItem.querySelector(`[name="${name}"]`)) lineItem.querySelector(`[name="${name}"]`).focus();
         this.disableLoading();
-      }).catch(() => {
+      })
+      .then(() => {
+        this.updateBannerPrice();
+      })
+      .catch(() => {
         this.querySelectorAll('.loading-overlay').forEach((overlay) => overlay.classList.add('hidden'));
         document.getElementById('cart-errors').textContent = window.cartStrings.error;
         this.disableLoading();
@@ -131,6 +135,29 @@ class CartItems extends HTMLElement {
 
   disableLoading() {
     document.getElementById('main-cart-items').classList.remove('cart__items--disabled');
+  }
+
+  updateBannerPrice() {
+    fetch('/cart.js')
+      .then(response => response.json())
+      .then(data => {
+        let setPrice = document.getElementById("merchantSetFreeShippingGoal").innerHTML * 100; //Gets the price set by the merchant in the theme section settings - unformated
+        let setFinishedLabel = document.getElementById("merchantSetFinishedLabel").innerHTML;
+        let setInProgressLabel = document.getElementById("merchantSetInProgressLabel").innerHTML;
+        let totalProgress = setPrice - data.total_price;
+        let priceRegex = /[$(0-9)+.?(0-9)*]+/;
+
+        if (totalProgress <= 0) {
+          document.getElementById("total-cart-price").innerHTML = setFinishedLabel;
+        } else {
+          // Replace regex matched price with recalculated price
+          let totalPrice = "$" + (totalProgress / 100).toFixed(2);
+          setInProgressLabel = setInProgressLabel.replace(priceRegex, totalPrice);
+
+          document.getElementById("total-cart-price").innerHTML = setInProgressLabel;
+        }
+        document.getElementById("progressbar-inner").style.width = (data.total_price / setPrice) * 100 + "%";
+      });
   }
 }
 
