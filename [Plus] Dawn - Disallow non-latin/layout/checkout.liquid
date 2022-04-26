@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ locale }}" dir="{{ direction }}" class="{{ checkout_html_classes }}">
   <head>
-    <meta charset="utf-8">
+    <meta charset="ISO-8859-1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0">
     <meta name="referrer" content="origin">
@@ -50,5 +50,19 @@
     </div>
 
     {{ tracking_code }}
+
+
+    {% if settings.plus_no_nonlatin_chars %}
+      {{ 'plus-disallow-nonlatin-chars.js' | asset_url | script_tag }}
+    {% endif %}
+
+    {% if settings.plus_no_po_box %}
+      {{ 'plus-disallow-po-boxes.js' | asset_url | script_tag }}
+    {% endif %}
+
+    {% if settings.plus_restrict_input_length %}
+      {{ 'plus-restrict-input-length.js' | asset_url | script_tag }}
+    {% endif %}
+
   </body>
 </html>
